@@ -12,4 +12,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="starColor">#FFCC00</color>
     <color name="blueClick">#0099CC</color>
+    <color name="color1">#E54304</color>
+    <color name="color2">#fff2df</color>
+    <color name="color3">#ff9e22</color>
 </resources>
