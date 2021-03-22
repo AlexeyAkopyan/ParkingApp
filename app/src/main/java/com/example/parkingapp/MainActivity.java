@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.util.Log;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity
 
     public Button btn_spot;
     public Button btn_map;
+    public ImageButton btn_menu;
     public ParkInfoFragment park_info_frag;
     public FragmentManager fragmentManager;
     public FragmentTransaction fTrans;
@@ -38,7 +41,7 @@ public class MainActivity extends AppCompatActivity
     private GoogleMap map;
     private LinearLayout map_layout;
     public List<ParkingPlace> parking_book;
-    public List<String> selected_time;
+    public List<Integer> selected_time;
     public ParkingPlace selected_place = null;// = new ArrayList<Object>();
 
 
@@ -46,6 +49,8 @@ public class MainActivity extends AppCompatActivity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        btn_menu = findViewById(R.id.btn_menu);
+        btn_menu.setOnClickListener(this);
 
         parking_book = ReadParkingBook();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -64,22 +69,25 @@ public class MainActivity extends AppCompatActivity
     }
      List<ParkingPlace> ReadParkingBook(){
         List<ParkingPlace> parking_book = new ArrayList<ParkingPlace>();
-        parking_book.add(new ParkingPlace(59.930413, 30.361137, "пр. Пятилеток, 1, лит. А", "wrk_hrs_1"));
-        parking_book.add(new ParkingPlace(59.933686, 30.313075, "наб. р. Мойки, 75-79", "wrk_hrs_2"));
-        parking_book.add(new ParkingPlace(59.930086, 30.344658, "ул. Рубинштейна, 11", "wrk_hrs_3"));
-        parking_book.add(new ParkingPlace(59.927321, 30.385752, "пл. Восстания", "wrk_hrs_4"));
+        parking_book.add(new ParkingPlace(59.930413, 30.361137, "пр. Пятилеток, 1, лит. А", Arrays.asList(15, 0, 23, 59)));
+        parking_book.add(new ParkingPlace(59.933686, 30.313075, "наб. р. Мойки, 75-79", Arrays.asList(12, 0, 22, 00)));
+        parking_book.add(new ParkingPlace(59.930086, 30.344658, "ул. Рубинштейна, 11", Arrays.asList(17, 30, 23, 59)));
+        parking_book.add(new ParkingPlace(59.927321, 30.385752, "пл. Восстания", Arrays.asList(0, 0, 23, 59)));
 
         return parking_book;
     }
 
     @Override
-    public void sendData(List<String> message) {
-        selected_time = message;
+    public void sendData(List<Integer> time) {
+        selected_time = time;
 
     }
 
     public void onClick(View v) {
-
+        if (v.getId() == R.id.btn_menu){
+            Intent intent_menu = new Intent(this, MenuActivity.class);
+            startActivity(intent_menu);
+        }
     }
 
     @Override
@@ -118,8 +126,13 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.btn_go_on:
                 Intent intent_go_on = new Intent(this, PaymentActivity.class);
+                Log.i("TAG_main_selected_time", TimeFormat(selected_time.get(0)) +
+                        ":" + TimeFormat(selected_time.get(1)) + "   по " + TimeFormat(selected_time.get(2)) +
+                        ":" + TimeFormat(selected_time.get(3)));
                 intent_go_on.putExtra("address", selected_place.getAddress());
+                Log.i("TAG_main", "put_address");
                 intent_go_on.putExtra("from_hours", selected_time.get(0));
+                Log.i("TAG_main", "put_time_0");
                 intent_go_on.putExtra("from_minutes", selected_time.get(1));
                 intent_go_on.putExtra("to_hours", selected_time.get(2));
                 intent_go_on.putExtra("to_minutes", selected_time.get(3));
@@ -129,6 +142,11 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.btn_time_info:
                 Intent intent_time_info = new Intent(this, InfoTimeActivity.class);
+                List<Integer> time = selected_place.getWorkingHours();
+                String working_hours = "c " + TimeFormat(time.get(0)) +
+                        ":" + TimeFormat(time.get(1)) + "   по " + TimeFormat(time.get(2)) +
+                        ":" + TimeFormat(time.get(3));
+                intent_time_info.putExtra("working_hours", working_hours);
                 startActivity(intent_time_info);
                 break;
             default:
@@ -138,6 +156,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public String TimeFormat(Integer i){
+        return ((i<10)?"0":"") + i;
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

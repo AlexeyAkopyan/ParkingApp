@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MenuActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.65"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/canvas"></ImageView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.30" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3" />
+
+    <ImageView
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        android:alpha="0.6"
+        android:background="@null"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        android:src="@drawable/menu_transparent_circle">
+
+    </ImageView>
+
+    <ImageButton
+        android:id="@+id/btn_close_menu"
+        android:layout_width="51dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="28dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_black_close" />
+
+    <TextView
+        android:id="@+id/txt_menu"
+        android:layout_width="165dp"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="@string/menu"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_close_menu"
+        app:layout_constraintStart_toEndOf="@+id/btn_close_menu"
+        app:layout_constraintTop_toTopOf="@+id/btn_close_menu" />
+
+    <TextView
+        android:id="@+id/txt_car_number_menu"
+        android:layout_width="284dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="28dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="A111A 178"
+        android:textColor="@color/megapurple"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/btn_close_menu"
+        app:layout_constraintTop_toBottomOf="@+id/txt_menu" />
+
+    <TextView
+        android:id="@+id/txt_booking_history"
+        android:layout_width="286dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="28dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="@string/booking_history"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/txt_car_number_menu"
+        app:layout_constraintStart_toStartOf="@+id/txt_car_number_menu"
+        app:layout_constraintTop_toBottomOf="@+id/txt_car_number_menu" />
+
+    <TextView
+        android:id="@+id/txt_payment_type"
+        android:layout_width="286dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="@string/payment_type"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/txt_booking_history"
+        app:layout_constraintStart_toStartOf="@+id/txt_booking_history"
+        app:layout_constraintTop_toBottomOf="@+id/txt_booking_history" />
+
+    <TextView
+        android:id="@+id/txt_help_chat"
+        android:layout_width="287dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="@string/help"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/txt_booking_history"
+        app:layout_constraintStart_toStartOf="@+id/txt_booking_history"
+        app:layout_constraintTop_toBottomOf="@+id/txt_payment_type" />
+
+    <TextView
+        android:id="@+id/txt_about_app"
+        android:layout_width="289dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="@string/about_app"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/txt_booking_history"
+        app:layout_constraintStart_toStartOf="@+id/txt_booking_history"
+        app:layout_constraintTop_toBottomOf="@+id/txt_help_chat" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

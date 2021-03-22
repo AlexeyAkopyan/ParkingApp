@@ -46,7 +46,6 @@
         android:ems="10"
         android:inputType="number"
         android:paddingHorizontal="3dp"
-        android:hint="10"
         android:maxLength="2"
         android:textColorHint="@color/black"
         android:textSize="30sp"
@@ -79,7 +78,6 @@
         android:ems="10"
         android:inputType="number"
         android:paddingHorizontal="3dp"
-        android:hint="00"
         android:maxLength="2"
         android:textColorHint="@color/black"
         android:textSize="30sp"
@@ -105,7 +103,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/rounded_rectangle"
     android:ems="10"
-    android:hint="00"
     android:inputType="number"
     android:maxLength="2"
     android:paddingHorizontal="3dp"
@@ -138,7 +135,6 @@
         android:ems="10"
         android:inputType="number"
         android:paddingHorizontal="3dp"
-        android:hint="20"
         android:maxLength="2"
         android:textColorHint="@color/black"
         android:textSize="30sp"
@@ -183,10 +179,10 @@
         android:id="@+id/btn_time_info"
         android:layout_width="51dp"
         android:layout_height="52dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/btn_go_on"
         app:layout_constraintStart_toEndOf="@+id/btn_go_on"
-        app:srcCompat="@android:drawable/ic_menu_info_details"
-        android:background="@color/white"/>
+        app:srcCompat="@drawable/ic_info_circle" />
 
 
 

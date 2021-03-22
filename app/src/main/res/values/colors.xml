@@ -5,8 +5,6 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -15,4 +13,17 @@
     <color name="color1">#E54304</color>
     <color name="color2">#fff2df</color>
     <color name="color3">#ff9e22</color>
+
+
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="megapurple">#FF965FC3</color>
+    <color name="fullscreen_background_grey">#FFE5E5E5</color>
+    <color name="fragment_background_grey">#FFFCFCFC</color>
+    <color name="border_grey">#FFCECECE</color>
+    <color name="button_unable">#FF9D9D9D</color>
+    <color name="rounded_box_grey">#FFE9E9E9</color>
+
+
 </resources>

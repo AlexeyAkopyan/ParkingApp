@@ -2,14 +2,16 @@ package com.example.parkingapp;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.List;
+
 public class ParkingPlace {
     LatLng loc;
     String address;
-    String working_hours;
+    List<Integer> working_hours;
     Integer nfree_places;
 
 
-    public ParkingPlace(double lat, double lng, String address, String working_hours){
+    public ParkingPlace(double lat, double lng, String address, List<Integer> working_hours){
         this.loc = new LatLng(lat, lng);
         this.address = address;
         this.working_hours = working_hours;
@@ -26,7 +28,7 @@ public class ParkingPlace {
         return address;
     }
 
-    public String getWorkingHours()
+    public List<Integer> getWorkingHours()
     {
         return working_hours;
     }
