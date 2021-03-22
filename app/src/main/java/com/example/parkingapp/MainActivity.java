@@ -5,9 +5,11 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.util.Log;
@@ -19,9 +21,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     private LinearLayout map_layout;
     public List<ParkingPlace> parking_book;
     public List<Integer> selected_time;
+    private BottomSheetBehavior bottomSheetBehavior;
     public ParkingPlace selected_place = null;// = new ArrayList<Object>();
 
 
@@ -56,6 +62,51 @@ public class MainActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        fragmentManager = getFragmentManager();
+
+        FrameLayout bottomSheet = findViewById(R.id.frgmCont);
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+
+        CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinator_layout);
+
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+// ..
+// here you could find all the UI views inside your bottom sheet and initialize them
+// ..
+
+// ..
+// setting the bottom sheet callback for interacting with state changes and sliding
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(View view, int i) {
+                // do something when state changes
+//                if (i < bottomSheetBehavior.getPeekHeight()){
+//                    coordinatorLayout.setLayoutParams(
+//                            new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, i));
+//                }
+            }
+
+            @Override
+            public void onSlide(View view, float v) {
+                // do something when slide happens
+                if (v < 0 && v > -1){Log.i("COOR", String.valueOf((int) (50 *(1.0 + v))));}
+                if (v < 0 && v > -1){
+                    coordinatorLayout.setLayoutParams(
+                            new androidx.constraintlayout.widget.ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                    (int) (50 *(1.0 + v))));
+                }
+                Log.i("COOR_f", String.valueOf(Float.toString(v)));
+            }
+        });
+
+// ..
+// set the bottom sheet callback state to hidden when you just start your app
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
 
 //        map_layout = findViewById(R.id.MapLayout);
@@ -95,8 +146,6 @@ public class MainActivity extends AppCompatActivity
 
         Log.i("TAG", "in onBackPressed");
         park_info_frag = (ParkInfoFragment) fragmentManager.findFragmentById(R.id.frgmCont);
-        Log.i("TAG1", String.valueOf((park_info_frag == null)));
-        Log.i("TAG2", String.valueOf(park_info_frag.isInLayout()));
 //        fragment==null || ! fragment.isInLayout();
         if (park_info_frag != null && park_info_frag.isVisible()) {
             fTrans = fragmentManager.beginTransaction();
@@ -108,7 +157,7 @@ public class MainActivity extends AppCompatActivity
 //                    LinearLayout.LayoutParams.MATCH_PARENT));
         }
         else {
-            this.finish();
+            this.finishAffinity();
         }
     }
 
@@ -212,7 +261,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onMarkerClick(Marker marker) {
         Integer id = (Integer) marker.getTag();
         selected_place = parking_book.get(id);
-        fragmentManager = getFragmentManager();
         park_info_frag = (ParkInfoFragment) fragmentManager.findFragmentById(R.id.frgmCont);
         if (id < parking_book.size()){
             if (park_info_frag == null || !park_info_frag.isVisible()){
@@ -223,6 +271,7 @@ public class MainActivity extends AppCompatActivity
                         .addToBackStack("name")
                         .commit();
                 park_info_frag.setSelectedPlace(selected_place);
+                bottomSheetBehavior.setHideable(true);
 //                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 //                        LinearLayout.LayoutParams.MATCH_PARENT, 1150);
 //                map_layout.setLayoutParams(params);
