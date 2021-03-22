@@ -1,75 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityTwo">
+    tools:context=".PaymentActivity" >
+
+
+    <Toolbar
+        android:id="@+id/toolbar"
+        style="@style/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/toolbar_box"
+        android:elevation="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_black_arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/query_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingLeft="20dp"
+            android:text="@string/payment"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="30sp" />
+
+
+    </Toolbar>
 
     <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="@string/parking_time"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <EditText
-        android:id="@+id/editTextTime"
-        android:layout_width="109dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="44dp"
-        android:ems="10"
-        android:inputType="time"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <EditText
-        android:id="@+id/editTextTime2"
-        android:layout_width="131dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginRight="56dp"
-        android:ems="10"
-        android:inputType="time"
+        android:id="@+id/txt_street2"
+        android:layout_width="285dp"
+        android:layout_height="82dp"
+        android:layout_marginTop="112dp"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.733"
-        app:layout_constraintStart_toEndOf="@+id/editTextTime"
-        app:layout_constraintTop_toTopOf="@+id/editTextTime" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="228dp"
-        android:text="@string/street"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextTextPersonName"
+    <TextView
+        android:id="@+id/txt_selected_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="44dp"
+        android:textSize="24sp"
+        android:text="@string/selected_time"
+        app:layout_constraintStart_toStartOf="@+id/txt_street2"
+        app:layout_constraintTop_toBottomOf="@+id/txt_street2" />
+
+    <TextView
+        android:id="@+id/txt_from2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/from"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/txt_street2"
+        app:layout_constraintTop_toBottomOf="@+id/txt_selected_time" />
+
+    <TextView
+        android:id="@+id/txt_time_from_hours2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
         android:ems="10"
+        android:inputType="number"
+        android:paddingHorizontal="3dp"
+        android:text="10"
+        android:maxLength="2"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_from2"
+        app:layout_constraintStart_toEndOf="@+id/txt_from2"
+        app:layout_constraintTop_toTopOf="@+id/txt_from2"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/txt_spr3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=":"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_time_from_hours2"
+        app:layout_constraintEnd_toStartOf="@+id/txt_time_from_minutes2"
+        app:layout_constraintStart_toEndOf="@+id/txt_time_from_hours2"
+        app:layout_constraintTop_toTopOf="@+id/txt_time_from_hours2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/txt_time_from_minutes2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:inputType="number"
+        android:paddingHorizontal="3dp"
+        android:text="00"
+        android:maxLength="2"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_time_from_hours2"
+        app:layout_constraintStart_toEndOf="@+id/txt_time_from_hours2"
+        app:layout_constraintTop_toTopOf="@+id/txt_time_from_hours2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/txt_to2"
+        android:layout_width="37dp"
+        android:layout_height="40dp"
+        android:text="@string/to"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_time_to_minutes2"
+        app:layout_constraintEnd_toStartOf="@+id/txt_time_to_hours2"
+        app:layout_constraintTop_toTopOf="@+id/txt_time_to_minutes2" />
+
+    <TextView
+        android:id="@+id/txt_time_to_minutes2"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="00"
+        android:inputType="number"
+        android:maxLength="2"
+        android:paddingHorizontal="3dp"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_from2"
+        app:layout_constraintEnd_toEndOf="@+id/txt_street2"
+        app:layout_constraintTop_toTopOf="@+id/txt_from2" />
+
+    <TextView
+        android:id="@+id/txt_spr4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=":"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_time_to_minutes2"
+        app:layout_constraintEnd_toStartOf="@+id/txt_time_to_minutes2"
+        app:layout_constraintStart_toEndOf="@+id/txt_time_to_hours2"
+        app:layout_constraintTop_toTopOf="@+id/txt_time_to_minutes2" />
+
+    <TextView
+        android:id="@+id/txt_time_to_hours2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="number"
+        android:paddingHorizontal="3dp"
+        android:text="20"
+        android:maxLength="2"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_time_to_minutes2"
+        app:layout_constraintEnd_toStartOf="@+id/txt_time_to_minutes2"
+        app:layout_constraintTop_toTopOf="@+id/txt_time_to_minutes2"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/edit_txt_promo_code"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="128dp"
+        android:background="@drawable/promo_code_box"
+        android:ems="10"
+        android:gravity="center"
         android:hint="@string/promo_code"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/editTextTime"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTime" />
+        android:textColorHint="#CECECE"
+        android:textSize="28sp"
+        app:layout_constraintStart_toStartOf="@+id/txt_street2"
+        app:layout_constraintTop_toBottomOf="@+id/txt_selected_time" />
+
+    <TextView
+        android:id="@+id/txt_price"
+        android:layout_width="74dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="64dp"
+        android:text="0"
+        app:layout_constraintBottom_toTopOf="@+id/btn_pay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_txt_promo_code"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/btn_pay"
+        android:layout_width="240dp"
+        android:layout_height="56dp"
         android:layout_marginBottom="76dp"
+        android:textSize="20sp"
         android:text="@string/pay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
-
-
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
