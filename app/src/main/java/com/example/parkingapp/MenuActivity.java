@@ -2,6 +2,7 @@ package com.example.parkingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -13,7 +14,7 @@ import org.w3c.dom.Text;
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
     public ImageButton btn_close_menu;
-    public TextView txt_car_number_menu;
+    private TextView txt_car_number_menu;
     public TextView txt_booking_history;
     public TextView txt_payment_type;
     public TextView txt_help_chat;
@@ -25,10 +26,17 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         btn_close_menu = findViewById(R.id.btn_close_menu);
+        txt_car_number_menu = findViewById(R.id.txt_car_number_menu);
         txt_booking_history = findViewById(R.id.txt_booking_history);
         txt_payment_type = findViewById(R.id.txt_payment_type);
         txt_help_chat = findViewById(R.id.txt_help_chat);
         txt_about_app = findViewById(R.id.txt_about_app);
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(
+                "CarNumber", MODE_PRIVATE);
+        String carNumber = pref.getString(
+                "carNumber", "");
+        txt_car_number_menu.setText(carNumber);
 
         txt_booking_history.setClickable(true);
         txt_payment_type.setClickable(true);

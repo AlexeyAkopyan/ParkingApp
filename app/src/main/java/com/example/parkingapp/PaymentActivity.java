@@ -38,10 +38,14 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         btn_back.setOnClickListener(this);
         Intent intent=getIntent();
         txt_street.setText(intent.getStringExtra("address"));
-        txt_time_from_hours.setText(String.valueOf(intent.getIntExtra("from_hours", 0)));
-        txt_time_from_minutes.setText(String.valueOf(intent.getIntExtra("from_minutes", 0)));
-        txt_time_to_hours.setText(String.valueOf(intent.getIntExtra("to_hours", 0)));
-        txt_time_to_minutes.setText(String.valueOf(intent.getIntExtra("to_minutes", 0)));
+        txt_time_from_hours.setText(TimeFormat(intent.getIntExtra("from_hours", 0)));
+        txt_time_from_minutes.setText(TimeFormat(intent.getIntExtra("from_minutes", 0)));
+        txt_time_to_hours.setText(TimeFormat(intent.getIntExtra("to_hours", 0)));
+        txt_time_to_minutes.setText(TimeFormat(intent.getIntExtra("to_minutes", 0)));
+    }
+
+    public String TimeFormat(Integer i){
+        return ((i<10)?"0":"") + i;
     }
 
     public void onClick(View v) {
