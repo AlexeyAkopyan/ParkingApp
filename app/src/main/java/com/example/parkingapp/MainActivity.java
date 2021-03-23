@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.example.parkingapp.objects.Order;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -139,8 +140,13 @@ public class MainActivity extends AppCompatActivity
 
     public void onClick(View v) {
         if (v.getId() == R.id.btn_menu){
-            Intent intent_menu = new Intent(this, MenuActivity.class);
-            startActivity(intent_menu);
+            try {
+                connect();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+//            Intent intent_menu = new Intent(this, MenuActivity.class);
+//            startActivity(intent_menu);
         }
     }
 
@@ -285,6 +291,39 @@ public class MainActivity extends AppCompatActivity
             }
         }
         return true;
+    }
+
+
+    public static void connect() throws InterruptedException {
+//        Retrofit.Builder builder = new Retrofit.Builder()
+//                .baseUrl("https://10.0.2.2:8080/")
+//                .addConverterFactory(GsonConverterFactory.create());
+        WebSocketConnection connection = new WebSocketConnection("http://10.0.2.2:8080/client");
+        connection.init();
+        Random random = new Random();
+        Integer count = 0;
+        while (count < 100) {
+            count++;
+            if (connection.getParkingList() != null) {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                }
+                int parkingId = random.nextInt(connection.getParkingList().size());
+                String carNum = "car" + random.nextInt(100);
+                Date start = new Date(new Date().getTime() + random.nextInt(3600 * 1000 * 8) + 3600 * 1000);
+                Date finish = new Date(start.getTime() + 3600 * 1000);
+                String paymentInfo = "here comes some payment information " + random.nextInt(100);
+                Order order = new Order(null, (long) parkingId, carNum, start.getTime(),
+                        finish.getTime(), paymentInfo);
+                connection.sendOrder(order);
+                Log.i("TAG_CONNECT", start.toString());
+            } else {
+                System.out.println("pList is null");
+
+                Thread.sleep(2000);
+            }
+        }
     }
 }
 
