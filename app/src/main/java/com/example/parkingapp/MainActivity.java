@@ -31,6 +31,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Date;
+import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity
@@ -94,13 +96,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onSlide(View view, float v) {
                 // do something when slide happens
-                if (v < 0 && v > -1){Log.i("COOR", String.valueOf((int) (50 *(1.0 + v))));}
-                if (v < 0 && v > -1){
-                    coordinatorLayout.setLayoutParams(
-                            new androidx.constraintlayout.widget.ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                    (int) (50 *(1.0 + v))));
-                }
-                Log.i("COOR_f", String.valueOf(Float.toString(v)));
             }
         });
 
@@ -120,11 +115,19 @@ public class MainActivity extends AppCompatActivity
     }
      List<ParkingPlace> ReadParkingBook(){
         List<ParkingPlace> parking_book = new ArrayList<ParkingPlace>();
-        parking_book.add(new ParkingPlace(59.930413, 30.361137, "пр. Пятилеток, 1, лит. А", Arrays.asList(15, 0, 23, 59)));
-        parking_book.add(new ParkingPlace(59.933686, 30.313075, "наб. р. Мойки, 75-79", Arrays.asList(12, 0, 22, 00)));
-        parking_book.add(new ParkingPlace(59.930086, 30.344658, "ул. Рубинштейна, 11", Arrays.asList(17, 30, 23, 59)));
-        parking_book.add(new ParkingPlace(59.927321, 30.385752, "пл. Восстания", Arrays.asList(0, 0, 23, 59)));
-
+        parking_book.add(new ParkingPlace(
+                59.930413, 30.361137,
+                "пр. Пятилеток, 1, лит. А", Arrays.asList(15, 0, 23, 59),
+                7));
+        parking_book.add(new ParkingPlace(59.933686, 30.313075,
+                "наб. р. Мойки, 75-79", Arrays.asList(12, 0, 22, 00),
+                20));
+        parking_book.add(new ParkingPlace(59.930086, 30.344658,
+                "ул. Рубинштейна, 11", Arrays.asList(17, 30, 23, 59),
+                12));
+        parking_book.add(new ParkingPlace(59.927321, 30.385752,
+                "пл. Восстания", Arrays.asList(0, 0, 23, 59),
+                1));
         return parking_book;
     }
 
@@ -281,7 +284,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         }
-        return false;
+        return true;
     }
 }
 

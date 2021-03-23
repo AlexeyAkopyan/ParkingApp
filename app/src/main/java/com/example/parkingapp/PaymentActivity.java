@@ -11,16 +11,22 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.example.parkingapp.objects.Order;
+
+import java.util.Date;
+import java.util.Random;
 
 public class PaymentActivity extends AppCompatActivity implements View.OnClickListener
 {
-    public Button btn_pay;
-    public ImageButton btn_back;
-    public TextView txt_street;
-    public TextView txt_time_from_hours;
-    public TextView txt_time_from_minutes;
-    public TextView txt_time_to_hours;
-    public TextView txt_time_to_minutes;
+    private Button btn_pay;
+    private ImageButton btn_back;
+    private TextView txt_street;
+    private TextView txt_time_from_hours;
+    private TextView txt_time_from_minutes;
+    private TextView txt_time_to_hours;
+    private TextView txt_time_to_minutes;
+
+
 
 
     @Override
@@ -38,19 +44,59 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         btn_back.setOnClickListener(this);
         Intent intent=getIntent();
         txt_street.setText(intent.getStringExtra("address"));
-        txt_time_from_hours.setText(String.valueOf(intent.getIntExtra("from_hours", 0)));
-        txt_time_from_minutes.setText(String.valueOf(intent.getIntExtra("from_minutes", 0)));
-        txt_time_to_hours.setText(String.valueOf(intent.getIntExtra("to_hours", 0)));
-        txt_time_to_minutes.setText(String.valueOf(intent.getIntExtra("to_minutes", 0)));
+        txt_time_from_hours.setText(TimeFormat(intent.getIntExtra("from_hours", 0)));
+        txt_time_from_minutes.setText(TimeFormat(intent.getIntExtra("from_minutes", 0)));
+        txt_time_to_hours.setText(TimeFormat(intent.getIntExtra("to_hours", 0)));
+        txt_time_to_minutes.setText(TimeFormat(intent.getIntExtra("to_minutes", 0)));
+    }
+
+    public String TimeFormat(Integer i){
+        return ((i<10)?"0":"") + i;
     }
 
     public void onClick(View v) {
         if (v.getId() == R.id.btn_pay) {
-            Intent intent = new Intent(this, AddCardActivity.class);
-            startActivity(intent);
+            try {
+                connect();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+//            Intent intent = new Intent(this, AddCardActivity.class);
+//            startActivity(intent);
         }
         if (v.getId() == R.id.btn_back){
             this.finish();
+        }
+    }
+
+    public static void connect() throws InterruptedException {
+//        Retrofit.Builder builder = new Retrofit.Builder()
+//                .baseUrl("https://10.0.2.2:8080/")
+//                .addConverterFactory(GsonConverterFactory.create());
+        WebSocketConnection connection = new WebSocketConnection("http://10.0.2.2:8080/client");
+        connection.init();
+        Random random = new Random();
+        Integer count = 0;
+        while (count < 100) {
+            count++;
+            if (connection.getParkingList() != null) {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                }
+                int parkingId = random.nextInt(connection.getParkingList().size());
+                String carNum = "car" + random.nextInt(100);
+                Date start = new Date(new Date().getTime() + random.nextInt(3600 * 1000 * 8) + 3600 * 1000);
+                Date finish = new Date(start.getTime() + 3600 * 1000);
+                String paymentInfo = "here comes some payment information " + random.nextInt(100);
+                Order order = new Order(null, (long) parkingId, carNum, start.getTime(),
+                        finish.getTime(), paymentInfo);
+                connection.sendOrder(order);
+            } else {
+                System.out.println("pList is null");
+
+                Thread.sleep(2000);
+            }
         }
     }
 }

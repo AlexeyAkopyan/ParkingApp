@@ -161,6 +161,7 @@
         android:text="0"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/txt_available_park_spaces"
         app:layout_constraintEnd_toEndOf="@+id/edit_txt_time_to_minutes" />
 

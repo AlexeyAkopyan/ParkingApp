@@ -5,17 +5,18 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.List;
 
 public class ParkingPlace {
-    LatLng loc;
-    String address;
-    List<Integer> working_hours;
-    Integer nfree_places;
+    private  LatLng loc;
+    private  String address;
+    private  List<Integer> working_hours;
+    private  Integer number_free_places;
 
 
-    public ParkingPlace(double lat, double lng, String address, List<Integer> working_hours){
+    public ParkingPlace(double lat, double lng, String address,
+                        List<Integer> working_hours, Integer number_free_places){
         this.loc = new LatLng(lat, lng);
         this.address = address;
         this.working_hours = working_hours;
-        this.nfree_places = 20;
+        this.number_free_places = number_free_places;
     }
 
     public LatLng getLoc()
@@ -33,8 +34,8 @@ public class ParkingPlace {
         return working_hours;
     }
 
-    public Integer getNFreePlaces(){
-        return nfree_places;
+    public Integer getNumberFreePlaces(){
+        return number_free_places;
     };
 
 

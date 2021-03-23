@@ -2,7 +2,9 @@ package com.example.parkingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -12,12 +14,12 @@ import org.w3c.dom.Text;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public ImageButton btn_close_menu;
-    public TextView txt_car_number_menu;
-    public TextView txt_booking_history;
-    public TextView txt_payment_type;
-    public TextView txt_help_chat;
-    public TextView txt_about_app;
+    private ImageButton btn_close_menu;
+    private TextView txt_car_number_menu;
+    private TextView txt_booking_history;
+    private TextView txt_payment_type;
+    private TextView txt_help_chat;
+    private TextView txt_about_app;
 
 
     @Override
@@ -25,10 +27,17 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         btn_close_menu = findViewById(R.id.btn_close_menu);
+        txt_car_number_menu = findViewById(R.id.txt_car_number_menu);
         txt_booking_history = findViewById(R.id.txt_booking_history);
         txt_payment_type = findViewById(R.id.txt_payment_type);
         txt_help_chat = findViewById(R.id.txt_help_chat);
         txt_about_app = findViewById(R.id.txt_about_app);
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(
+                "CarNumberPref", MODE_PRIVATE);
+        String car_number = pref.getString("carNumber",
+                getResources().getString(R.string.type_car_number));
+        txt_car_number_menu.setText(car_number);
 
         txt_booking_history.setClickable(true);
         txt_payment_type.setClickable(true);
