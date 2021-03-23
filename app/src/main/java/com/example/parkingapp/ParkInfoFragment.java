@@ -16,23 +16,26 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ParkInfoFragment extends Fragment implements View.OnClickListener {
 
 
 
-    public ParkingPlace selected_place;
-    public TextView txt_street;
+    private ParkingPlace selected_place;
+    private TextView txt_street;
     TextView txt_n_free_park_spaces;
-    public EditText txt_time_from_hours;
-    public EditText txt_time_from_minutes;
-    public EditText txt_time_to_hours;
-    public EditText txt_time_to_minutes;
-    public Button btn_go_on;
-    public ImageButton btn_time_info;
-    public List<Integer> selected_time;
+    private EditText txt_time_from_hours;
+    private EditText txt_time_from_minutes;
+    private EditText txt_time_to_hours;
+    private EditText txt_time_to_minutes;
+    Button btn_go_on;
+    private ImageButton btn_time_info;
+    private List<Integer> selected_time;
     SendTime ST;
 
     interface SendTime {
@@ -53,9 +56,9 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
 
     public void changeSelectedPlace(ParkingPlace place) {
         selected_place = place;
-        checkIsTimeValid();
+        setValidTime();
         txt_street.setText(selected_place.getAddress());
-        txt_n_free_park_spaces.setText(String.valueOf(selected_place.getNFreePlaces()));
+        txt_n_free_park_spaces.setText(String.valueOf(selected_place.getNumberFreePlaces()));
         Log.i("TAG_start", selected_place.getAddress());
 
     }
@@ -97,15 +100,8 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
                                       int before, int count) {
             }
         };
-        Calendar now = Calendar.getInstance();
-        Integer current_hour = now.get(Calendar.HOUR_OF_DAY);
-        Integer current_minute = now.get(Calendar.MINUTE);
 
-        txt_time_from_hours.setText(TimeFormat(current_hour));
-        txt_time_from_minutes.setText(TimeFormat(current_minute));
-        txt_time_to_hours.setText(TimeFormat(current_hour + 1));
-        txt_time_to_minutes.setText(TimeFormat(current_minute));
-        checkIsTimeValid();
+        setValidTime();
 
         txt_time_from_hours.addTextChangedListener(txt_watcher);
         txt_time_from_minutes.addTextChangedListener(txt_watcher);
@@ -115,11 +111,43 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
         btn_scroll_down.setOnClickListener(this);
         btn_go_on.setOnClickListener(this);
         btn_time_info.setOnClickListener(this);
+        btn_time_info.setVisibility(View.INVISIBLE);
+
+        checkIsTimeValid();
 
         txt_street.setText(selected_place.getAddress());
-        txt_n_free_park_spaces.setText(String.valueOf(selected_place.getNFreePlaces()));
+        txt_n_free_park_spaces.setText(String.valueOf(selected_place.getNumberFreePlaces()));
         return rootView;
 
+    }
+
+    private void setValidTime() {
+        Calendar now = Calendar.getInstance();
+        Integer current_hour = now.get(Calendar.HOUR_OF_DAY);
+        Integer current_minute = now.get(Calendar.MINUTE);
+        Log.i("TAG_WRK_HOURS", selected_place.getWorkingHours().toString());
+        List<Integer> valid_time = new ArrayList<>(selected_place.getWorkingHours());
+        if (current_hour > valid_time.get(0) ||
+                (current_hour == valid_time.get(0) &&
+                        current_minute >= valid_time.get(1)))
+        {
+            valid_time.set(0, current_hour);
+            valid_time.set(1, current_minute);
+        }
+        if (valid_time.get(0) + 1 < valid_time.get(2) ||
+                (valid_time.get(0) + 1 == valid_time.get(2) &&
+                        valid_time.get(1) <= valid_time.get(3)))
+        {
+            valid_time.set(2, valid_time.get(0) + 1);
+            valid_time.set(3, valid_time.get(1));
+        }
+
+        txt_time_from_hours.setText(TimeFormat(valid_time.get(0)));
+        txt_time_from_minutes.setText(TimeFormat(valid_time.get(1)));
+        txt_time_to_hours.setText(TimeFormat(valid_time.get(2)));
+        txt_time_to_minutes.setText(TimeFormat(valid_time.get(3)));
+
+        Log.i("TAG_WRK_HOURS", selected_place.getWorkingHours().toString());
     }
 
     public void checkIsTimeValid(){
@@ -164,12 +192,16 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
         {
             Log.i("TAG_check_valid", "valid");
             btn_go_on.setClickable(true);
+            btn_go_on.setBackgroundColor(getResources().getColor(R.color.megapurple));
+            Log.i("TAG_check_valid", String.valueOf(btn_go_on.isClickable()));
             btn_time_info.setVisibility(View.INVISIBLE);
         }
         else
         {
             Log.i("TAG_check_valid", "invalid");
             btn_go_on.setClickable(false);
+            btn_go_on.setBackgroundColor(getResources().getColor(R.color.button_unable));
+            Log.i("TAG_check_valid", String.valueOf(btn_go_on.isClickable()));
             btn_time_info.setVisibility(View.VISIBLE);
         }
     }
@@ -210,12 +242,13 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        int id;
-        Log.i("TAG", selected_place.getAddress());
-        Log.i("TAG_check_selected_time", TimeFormat(selected_time.get(0)) +
-                ":" + TimeFormat(selected_time.get(1)) + "   по " + TimeFormat(selected_time.get(2)) +
-                ":" + TimeFormat(selected_time.get(3)));
-        ST.sendData(selected_time);
+        if ((v.getId() == R.id.btn_go_on) || (v.getId() == R.id.btn_time_info)) {
+            Log.i("TAG", selected_place.getAddress());
+            Log.i("TAG_check_selected_time", TimeFormat(selected_time.get(0)) +
+                    ":" + TimeFormat(selected_time.get(1)) + "   по " + TimeFormat(selected_time.get(2)) +
+                    ":" + TimeFormat(selected_time.get(3)));
+            ST.sendData(selected_time);
+        }
         OnSelectedButtonListener listener = (OnSelectedButtonListener) getActivity();
         listener.onButtonSelected(v.getId());
         }

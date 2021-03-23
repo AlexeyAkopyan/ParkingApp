@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 public class InfoTimeActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public Button btn_ok;
-    public TextView txt_valid_time;
+    private Button btn_ok;
+    private TextView txt_valid_time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

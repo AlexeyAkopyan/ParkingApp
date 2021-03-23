@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:layout_gravity="bottom"
     android:background="#FCFCFC"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
     >
     <TextView
         android:id="@+id/txt_street"
@@ -161,6 +162,7 @@
         android:text="0"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/txt_available_park_spaces"
         app:layout_constraintEnd_toEndOf="@+id/edit_txt_time_to_minutes" />
 
