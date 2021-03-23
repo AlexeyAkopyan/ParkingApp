@@ -15,7 +15,7 @@
     <string name="pay">Оплатить</string>
     <string name="type_car_number">Введите номер автомобиля</string>
     <string name="i_dont_have_such_number"><u>у меня не такой номер</u></string>
-    <string name="type_address">Введите адрес...</string>
+    <string name="type_address">Введите адрес…</string>
     <string name="from">c</string>
     <string name="to">по</string>
     <string name="available_park_spaces">Мест доступно:</string>
@@ -38,4 +38,5 @@
     <string name="click_to_open_qr_code">Нажмите, чтобы открыть QR-код</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="skip">Пропустить</string>
 </resources>
