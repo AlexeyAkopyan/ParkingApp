@@ -56,13 +56,13 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
 
     public void onClick(View v) {
         if (v.getId() == R.id.btn_pay) {
-            try {
-                connect();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-//            Intent intent = new Intent(this, AddCardActivity.class);
-//            startActivity(intent);
+//            try {
+//                connect();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+            Intent intent = new Intent(this, AddCardActivity.class);
+            startActivity(intent);
         }
         if (v.getId() == R.id.btn_back){
             this.finish();
@@ -70,10 +70,8 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public static void connect() throws InterruptedException {
-//        Retrofit.Builder builder = new Retrofit.Builder()
-//                .baseUrl("https://10.0.2.2:8080/")
-//                .addConverterFactory(GsonConverterFactory.create());
-        WebSocketConnection connection = new WebSocketConnection("http://10.0.2.2:8080/client");
+
+        WebSocketConnection connection = new WebSocketConnection("http://10.0.2.3:8080/client");
         connection.init();
         Random random = new Random();
         Integer count = 0;
