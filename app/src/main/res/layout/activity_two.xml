@@ -190,7 +190,7 @@
 
     <EditText
         android:id="@+id/edit_txt_promo_code"
-        android:layout_width="180dp"
+        android:layout_width="270dp"
         android:layout_height="50dp"
         android:layout_marginTop="128dp"
         android:background="@drawable/promo_code_box"
@@ -200,6 +200,7 @@
         android:inputType="textPersonName"
         android:textColorHint="#CECECE"
         android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_time_to_minutes2"
         app:layout_constraintStart_toStartOf="@+id/txt_street2"
         app:layout_constraintTop_toBottomOf="@+id/txt_selected_time" />
 

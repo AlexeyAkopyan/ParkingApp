@@ -92,7 +92,7 @@
         app:backgroundTint="@color/megapurple"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_black_menu"/>
+        app:srcCompat="@drawable/ic_menu"/>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"

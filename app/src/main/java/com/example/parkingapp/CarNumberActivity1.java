@@ -17,12 +17,12 @@ public class CarNumberActivity1 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (restorePrefData()){
-            Intent intent_main = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent_main);
-            Log.i("TAG_CarNumberWasStored", "Stored");
-            finish();
-        }
+//        if (restorePrefData()){
+//            Intent intent_main = new Intent(getApplicationContext(), MainActivity.class);
+//            startActivity(intent_main);
+//            Log.i("TAG_CarNumberWasStored", "Stored");
+//            finish();
+//        }
 
         setContentView(R.layout.activity_car_number1);
 

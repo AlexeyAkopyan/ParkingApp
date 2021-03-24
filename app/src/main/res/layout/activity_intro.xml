@@ -15,26 +15,51 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.166">
 
-
     </androidx.viewpager.widget.ViewPager>
 
     <Button
         android:id="@+id/btn_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
-        android:text="@string/all_clear"
+        android:layout_width="140dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="32dp"
+        android:drawableRight="@drawable/ic_arrow_forward"
+        android:text="@string/next"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@id/btn_skip" />
 
     <Button
         android:id="@+id/btn_skip"
-        android:layout_width="wrap_content"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:text="@string/skip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_all_clear"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="84dp"
+        android:text="@string/all_clear"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_indicator"
+        android:backgroundTint="@android:color/transparent"
+        android:layout_width="128dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_next"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_next"
+        app:tabBackground="@drawable/indicator_selector"
+        app:tabIndicatorHeight="0dp">
+
+
+    </com.google.android.material.tabs.TabLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

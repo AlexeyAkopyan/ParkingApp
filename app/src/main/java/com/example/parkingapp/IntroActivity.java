@@ -9,7 +9,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TableLayout;
 import android.widget.TextView;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,24 +24,27 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
     private ViewPager screenPager;
     IntroViewPagerAdapter introViewPagerAdapter;
     List<ScreenItem> mList;
-    Button btn_skip, btn_next;
-    int position = 0;
+    Button btn_skip, btn_next, btn_all_clear;
+    TabLayout tab_indicator;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (restorePrefData()){
-            Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity1.class);
-            startActivity(intent_car_number);
-            Log.i("TAG_IntroWasOpened", String.valueOf(true));
-            finish();
-        }
+//        if (restorePrefData()){
+//            loadNextActivity(false);
+//            Log.i("TAG_IntroWasOpened", String.valueOf(true));
+//        }
         setContentView(R.layout.activity_intro);
+
+        tab_indicator = findViewById(R.id.tab_indicator);
+
 
         mList = new ArrayList<>();
         btn_next = findViewById(R.id.btn_next);
         btn_skip = findViewById(R.id.btn_skip);
+        btn_all_clear = findViewById(R.id.btn_all_clear);
         mList.add(new ScreenItem(R.string.introduction_1, R.drawable.corvette));
         mList.add(new ScreenItem(R.string.introduction_2, R.drawable.canvas));
         mList.add(new ScreenItem(R.string.introduction_3, R.drawable.cherub));
@@ -53,16 +61,13 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onPageSelected(int position) {
                 if (position == mList.size() - 1){
-                    btn_skip.setVisibility(View.INVISIBLE);
+                    loadPage(true);
                 }
                 else{
-                    btn_skip.setVisibility(View.VISIBLE);
+                    loadPage(false);
                 }
                 if (position == mList.size() ){
-                    Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity1.class);
-                    startActivity(intent_car_number);
-                    savePrefsData();
-                    finish();
+                    loadNextActivity(true);
                 }
             }
 
@@ -72,10 +77,14 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
+        tab_indicator.setupWithViewPager(screenPager);
         btn_next.setOnClickListener(this);
         btn_skip.setOnClickListener(this);
+        btn_all_clear.setOnClickListener(this);
 
     }
+
+
 
     private boolean restorePrefData() {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("IntroPref", MODE_PRIVATE);
@@ -85,25 +94,24 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_skip
-                || (v.getId() == R.id.btn_next && screenPager.getCurrentItem() == mList.size() - 1)){
-            Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity1.class);
-            startActivity(intent_car_number);
-            savePrefsData();
-            finish();
+//        if (v.getId() == R.id.btn_skip
+//                || (v.getId() == R.id.btn_next && screenPager.getCurrentItem() == mList.size() - 1)){
+//            loadNextActivity(true);
+//        }
+//        else{
+//            if (v.getId() == R.id.btn_next) {
+//                position = screenPager.getCurrentItem();
+//                if (position < mList.size()) {
+//                    position++;
+//                    screenPager.setCurrentItem(position);
+//                }
+//            }
+//        }
+        if (v.getId()== R.id.btn_skip || v.getId() == R.id.btn_all_clear) {
+            loadNextActivity(true);
         }
-        else{
-            if (v.getId() == R.id.btn_next) {
-                position = screenPager.getCurrentItem();
-                if (position < mList.size()) {
-                    position++;
-                    screenPager.setCurrentItem(position);
-                }
-                if (position == mList.size() - 1) {
-                    btn_skip.setVisibility(View.INVISIBLE);
-
-                }
-            }
+        if (v.getId() == R.id.btn_next){
+                screenPager.setCurrentItem(screenPager.getCurrentItem() + 1);
         }
     }
 
@@ -128,12 +136,42 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
 //            case R.id.btn_skip:
 //                screenPager.setCurrentItem(screenPager.getCurrentItem() + 1);
 //                screenPager.setCurrentItem(screenPager.getCurrentItem() + 1);
-//                Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity1.class);
-//                startActivity(intent_car_number);
-//                savePrefsData();
-//                finish();
+//                loadNextActivity(true);
 //        }
 //    }
+
+    private void loadNextActivity(boolean savePrefData){
+        Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity1.class);
+        startActivity(intent_car_number);
+        if (savePrefData) { savePrefsData();}
+        finish();
+    }
+
+    private void loadPage(boolean last){
+//                    btn_next.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+//                    btn_next.setText(getString(R.string.all_clear));
+//                    btn_skip.setVisibility(View.INVISIBLE);
+        if (last) {
+//            Animation anim_disappear = AnimationUtils.loadAnimation(this, R.anim.button_skip);
+            Animation anim_appear = AnimationUtils.loadAnimation(this, R.anim.button_all_clear);
+            tab_indicator.setVisibility(View.INVISIBLE);
+            btn_skip.setVisibility(View.INVISIBLE);
+            btn_next.setVisibility(View.INVISIBLE);
+            btn_all_clear.setVisibility(View.VISIBLE);
+
+//            btn_skip.startAnimation(anim_disappear);
+//            btn_next.startAnimation(anim_disappear);
+            btn_all_clear.startAnimation(anim_appear);
+        }
+        else {
+            tab_indicator.setVisibility(View.VISIBLE);
+            btn_skip.setVisibility(View.VISIBLE);
+            btn_next.setVisibility(View.VISIBLE);
+            btn_all_clear.setVisibility(View.INVISIBLE);
+
+
+        }
+    }
 
 
     private void savePrefsData() {

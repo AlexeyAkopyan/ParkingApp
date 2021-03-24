@@ -73,10 +73,10 @@ public class MainActivity extends AppCompatActivity
 
         CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinator_layout);
 
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+//        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
+//        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
 // ..
 // here you could find all the UI views inside your bottom sheet and initialize them
@@ -96,7 +96,10 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onSlide(View view, float v) {
-                // do something when slide happens
+                // do something when slide
+                if (v > 0) {
+                    btn_menu.animate().scaleX(1 - v).scaleY(1 - v).setDuration(0).start();
+                }
             }
         });
 
@@ -140,13 +143,14 @@ public class MainActivity extends AppCompatActivity
 
     public void onClick(View v) {
         if (v.getId() == R.id.btn_menu){
-            try {
-                connect();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-//            Intent intent_menu = new Intent(this, MenuActivity.class);
-//            startActivity(intent_menu);
+//            try {
+//                connect();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+            Intent intent_menu = new Intent(this, MenuActivity.class);
+            startActivity(intent_menu);
+//            fab.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
         }
     }
 
@@ -269,12 +273,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onMarkerClick(Marker marker) {
         Integer id = (Integer) marker.getTag();
+        Log.i("TAG_HIDDEN", String.valueOf(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN));
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         selected_place = parking_book.get(id);
         park_info_frag = (ParkInfoFragment) fragmentManager.findFragmentById(R.id.frgmCont);
         if (id < parking_book.size()){
             if (park_info_frag == null || !park_info_frag.isVisible()){
 
                 park_info_frag = new ParkInfoFragment();
+
                 fragmentManager.beginTransaction()
                         .add(R.id.frgmCont, park_info_frag)
                         .addToBackStack("name")
@@ -295,9 +302,6 @@ public class MainActivity extends AppCompatActivity
 
 
     public static void connect() throws InterruptedException {
-//        Retrofit.Builder builder = new Retrofit.Builder()
-//                .baseUrl("https://10.0.2.2:8080/")
-//                .addConverterFactory(GsonConverterFactory.create());
         WebSocketConnection connection = new WebSocketConnection("http://10.0.2.2:8080/client");
         connection.init();
         Random random = new Random();
