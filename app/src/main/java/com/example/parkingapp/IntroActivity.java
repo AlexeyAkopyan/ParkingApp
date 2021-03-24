@@ -32,10 +32,10 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        if (restorePrefData()){
-//            loadNextActivity(false);
-//            Log.i("TAG_IntroWasOpened", String.valueOf(true));
-//        }
+        if (restorePrefData()){
+            loadNextActivity(false);
+            Log.i("TAG_IntroWasOpened", String.valueOf(true));
+        }
         setContentView(R.layout.activity_intro);
 
         tab_indicator = findViewById(R.id.tab_indicator);

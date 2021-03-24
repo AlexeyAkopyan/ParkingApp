@@ -16,6 +16,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.example.parkingapp.objects.Order;
+import com.example.parkingapp.objects.Parking;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -37,7 +38,7 @@ import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity
-        implements OnClickListener, ParkInfoFragment.OnSelectedButtonListener, ParkInfoFragment.SendTime, OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
+        implements OnClickListener, ParkInfoFragment.OnSelectedButtonListener, ParkInfoFragment.SendTime, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     public Button btn_spot;
     public Button btn_map;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity
     public List<Integer> selected_time;
     private BottomSheetBehavior bottomSheetBehavior;
     public ParkingPlace selected_place = null;// = new ArrayList<Object>();
+    private List<Parking> parkingList = null;
 
 
     @Override
@@ -72,6 +74,13 @@ public class MainActivity extends AppCompatActivity
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
         CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinator_layout);
+//        try {
+//            parkingList = connect();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(parkingList);
+
 
 //        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 //        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
@@ -115,9 +124,9 @@ public class MainActivity extends AppCompatActivity
 //        map_layout.setLayoutParams(params);
 
 
-
     }
-     List<ParkingPlace> ReadParkingBook(){
+
+    List<ParkingPlace> ReadParkingBook() {
         List<ParkingPlace> parking_book = new ArrayList<ParkingPlace>();
         parking_book.add(new ParkingPlace(
                 59.930413, 30.361137,
@@ -132,6 +141,9 @@ public class MainActivity extends AppCompatActivity
         parking_book.add(new ParkingPlace(59.927321, 30.385752,
                 "пл. Восстания", Arrays.asList(0, 0, 23, 59),
                 1));
+        parking_book.add(new ParkingPlace(59.927321, 30.385752,
+                "пл. Восстания", Arrays.asList(0, 0, 23, 59),
+                1));
         return parking_book;
     }
 
@@ -142,14 +154,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_menu){
-//            try {
-//                connect();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-            Intent intent_menu = new Intent(this, MenuActivity.class);
-            startActivity(intent_menu);
+        if (v.getId() == R.id.btn_menu) {
+            try {
+                connect();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+//            Intent intent_menu = new Intent(this, MenuActivity.class);
+//            startActivity(intent_menu);
 //            fab.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
         }
     }
@@ -168,8 +180,7 @@ public class MainActivity extends AppCompatActivity
 //            map_layout.setLayoutParams(new LinearLayout.LayoutParams(
 //                    LinearLayout.LayoutParams.MATCH_PARENT,
 //                    LinearLayout.LayoutParams.MATCH_PARENT));
-        }
-        else {
+        } else {
             this.finishAffinity();
         }
     }
@@ -177,7 +188,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onButtonSelected(int id) {
-        switch (id){
+        switch (id) {
             case R.id.btn_scroll_down: // btn_close
                 fTrans = fragmentManager.beginTransaction();
                 fTrans.remove(park_info_frag);
@@ -218,8 +229,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public String TimeFormat(Integer i){
-        return ((i<10)?"0":"") + i;
+    public String TimeFormat(Integer i) {
+        return ((i < 10) ? "0" : "") + i;
     }
 
     @Override
@@ -251,6 +262,7 @@ public class MainActivity extends AppCompatActivity
 //            googleMap.setTrafficEnabled(true);
 //        }
     }
+
     private void addMarkersToMap(List<ParkingPlace> parking_book) {
         // Uses a colored icon.
         //for(ParkingPlace place:parking_book)
@@ -266,9 +278,21 @@ public class MainActivity extends AppCompatActivity
                     .position(parking_book.get(i).getLoc())
                     .flat(true)
             ).setTag(i);
-        };
-
+        }
+        ;
     }
+//
+//    private List<ParkingPlace> ParkingAdapter(List<Parking> parkingList){
+//        Parking parking;
+//        List<ParkingPlace> parking_book = new ArrayList<ParkingPlace>();
+//        for (Integer i = 0; i < parkingList.size(); i++) {
+//            parking = parkingList.get(i);
+//            parking_book.add(new ParkingPlace(parking.getCoordinates().getLatitude(),
+//                    parking.getCoordinates().getLongitude(),parking.getAvailable()));
+////                    parling_address.get(i % 5).get(0), parling_address.get(i % 5).get(0),
+//
+//        }
+//    }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
@@ -277,8 +301,8 @@ public class MainActivity extends AppCompatActivity
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         selected_place = parking_book.get(id);
         park_info_frag = (ParkInfoFragment) fragmentManager.findFragmentById(R.id.frgmCont);
-        if (id < parking_book.size()){
-            if (park_info_frag == null || !park_info_frag.isVisible()){
+        if (id < parking_book.size()) {
+            if (park_info_frag == null || !park_info_frag.isVisible()) {
 
                 park_info_frag = new ParkInfoFragment();
 
@@ -291,8 +315,7 @@ public class MainActivity extends AppCompatActivity
 //                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 //                        LinearLayout.LayoutParams.MATCH_PARENT, 1150);
 //                map_layout.setLayoutParams(params);
-                }
-            else {
+            } else {
                 park_info_frag.changeSelectedPlace(selected_place);
 
             }
@@ -301,7 +324,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public static void connect() throws InterruptedException {
+    public static List<Parking> connect() throws InterruptedException {
         WebSocketConnection connection = new WebSocketConnection("http://10.0.2.2:8080/client");
         connection.init();
         Random random = new Random();
@@ -328,7 +351,11 @@ public class MainActivity extends AppCompatActivity
                 Thread.sleep(2000);
             }
         }
+        return connection.getParkingList();
     }
+
+    ;
 }
+
 
 

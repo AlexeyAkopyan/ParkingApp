@@ -38,4 +38,18 @@
     <string name="click_to_open_qr_code">Нажмите, чтобы открыть QR-код</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Payment -->
+    <string name="lbl_amount">Сумма:</string>
+    <string name="lbl_ccy">Currency:</string>
+    <string name="lbl_email">Email:</string>
+    <string name="lbl_description">Description:</string>
+    <string name="btn_pay_google">GooglePay</string>
+    <string name="btn_pay_card">Картой</string>
+    <string name="e_invalid_amount">Неверная сумма</string>
+    <string name="e_invalid_email">Неправильный email</string>
+    <string name="e_invalid_description">Enter description</string>
+    <string name="e_google_pay_unsupported">GooglePay не поддерживается</string>
+    <string name="e_google_pay_canceled">GooglePay отменен</string>
+    <string name="incorrect_car_number">Неправильный номер!</string>
 </resources>

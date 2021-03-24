@@ -1,9 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".CardActivity">
 
+    <!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="7dp"-->
+<!--                android:text="@string/lbl_ccy" />-->
+
+<!--            <Spinner-->
+<!--                android:id="@+id/spinner_ccy"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="7dp" />-->
+
+    <TextView
+        android:id="@+id/btn_amount"
+        android:layout_width="83dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="224dp"
+        android:text="@string/lbl_amount"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/edit_email"
+        app:layout_constraintTop_toBottomOf="@+id/card_input"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/edit_amount"
+        android:layout_width="183dp"
+        android:layout_height="40dp"
+        android:inputType="none"
+        android:maxLength="7"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_amount"
+        app:layout_constraintEnd_toEndOf="@+id/edit_email"
+        app:layout_constraintTop_toTopOf="@id/btn_amount"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="167dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="88dp"
+        android:text="@string/lbl_email"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edit_email"
+        android:layout_width="317dp"
+        android:layout_height="55dp"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
+        android:layout_width="65dp"
+        android:layout_height="38dp"
+        android:text="@string/lbl_description"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="268dp"
+        tools:layout_editor_absoluteY="27dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <EditText
+        android:id="@+id/edit_description"
+        android:layout_width="102dp"
+        android:layout_height="51dp"
+        android:inputType="none"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="52dp"
+        tools:layout_editor_absoluteY="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.cloudipsp.android.CardInputView
+        android:id="@+id/card_input"
+        android:layout_width="321dp"
+        android:layout_height="249dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/rounded_rectangle"
+        android:backgroundTint="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/edit_email"
+        app:layout_constraintStart_toStartOf="@+id/edit_email"
+        app:layout_constraintTop_toBottomOf="@+id/edit_email" />
+
+    <TextView
+        android:id="@+id/text_card_type"
+        android:layout_width="69dp"
+        android:layout_height="55dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.cloudipsp.android.CloudipspWebView
+        android:id="@+id/web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btn_pay_card"
+        android:layout_width="137dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="44dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/btn_pay_card"
+        app:layout_constraintStart_toStartOf="@+id/edit_email"
+        app:layout_constraintTop_toBottomOf="@+id/btn_amount" />
+
+    <Button
+        android:id="@+id/btn_pay_google"
+        android:layout_width="128dp"
+        android:layout_height="53dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/btn_pay_google"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_pay_card"
+        app:layout_constraintEnd_toEndOf="@+id/edit_email"
+        app:layout_constraintTop_toTopOf="@+id/btn_pay_card" />
 </androidx.constraintlayout.widget.ConstraintLayout>

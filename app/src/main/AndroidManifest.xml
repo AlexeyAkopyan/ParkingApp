@@ -19,7 +19,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ParkingApp">
-        <activity android:name=".BaseCardActivity"></activity>
+        <activity android:name=".SimpleExampleActivity"></activity>
+        <activity android:name=".BaseExampleActivity" />
+        <activity android:name=".BaseCardActivity" />
         <activity android:name=".CardActivity" />
         <activity android:name=".IntroActivity">
             <intent-filter>
@@ -50,6 +52,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${mapsApiKey}" />
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
 
         <activity android:name=".PaymentActivity" />
         <activity android:name=".MainActivity" />

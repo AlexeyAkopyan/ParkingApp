@@ -6,11 +6,15 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.parkingapp.objects.Order;
 
 import java.util.Date;
@@ -20,11 +24,12 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
 {
     private Button btn_pay;
     private ImageButton btn_back;
-    private TextView txt_street;
-    private TextView txt_time_from_hours;
-    private TextView txt_time_from_minutes;
-    private TextView txt_time_to_hours;
-    private TextView txt_time_to_minutes;
+    private TextView txt_street,
+            txt_price,
+            txt_time_from_hours,
+            txt_time_from_minutes,
+            txt_time_to_hours,
+            txt_time_to_minutes;
 
 
 
@@ -36,6 +41,7 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         btn_pay = findViewById(R.id.btn_pay);
         btn_back = findViewById(R.id.btn_back);
         txt_street = findViewById(R.id.txt_street2);
+        txt_price = findViewById(R.id.txt_price);
         txt_time_from_hours = findViewById(R.id.txt_time_from_hours2);
         txt_time_from_minutes = findViewById(R.id.txt_time_from_minutes2);
         txt_time_to_hours = findViewById(R.id.txt_time_to_hours2);
@@ -44,10 +50,15 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         btn_back.setOnClickListener(this);
         Intent intent=getIntent();
         txt_street.setText(intent.getStringExtra("address"));
+        txt_price.setText("245");
         txt_time_from_hours.setText(TimeFormat(intent.getIntExtra("from_hours", 0)));
         txt_time_from_minutes.setText(TimeFormat(intent.getIntExtra("from_minutes", 0)));
         txt_time_to_hours.setText(TimeFormat(intent.getIntExtra("to_hours", 0)));
         txt_time_to_minutes.setText(TimeFormat(intent.getIntExtra("to_minutes", 0)));
+
+        Toast toast = Toast.makeText(this, "Paid "  + "\nPaymentId:" + "245", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+        toast.show();
     }
 
     public String TimeFormat(Integer i){
@@ -61,7 +72,9 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
 //            }
-            Intent intent = new Intent(this, AddCardActivity.class);
+            Intent intent = new Intent(this, CardActivity.class);
+            intent.putExtra("amount", txt_price.getText());
+            Log.i("TAG_PRICE", (String) txt_price.getText());
             startActivity(intent);
         }
         if (v.getId() == R.id.btn_back){

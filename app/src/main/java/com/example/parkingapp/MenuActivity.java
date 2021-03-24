@@ -2,13 +2,16 @@ package com.example.parkingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.content.Intent;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -49,7 +52,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         txt_payment_type.setOnClickListener(this);
         txt_help_chat.setOnClickListener(this);
         txt_about_app.setOnClickListener(this);
-
+        Context context = getApplicationContext();
+        Toast toast = Toast.makeText(context, "Paid "  + "\nPaymentId:" + "245", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+        toast.show();
     }
 
     @Override

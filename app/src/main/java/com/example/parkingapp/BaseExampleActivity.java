@@ -24,7 +24,7 @@ import com.cloudipsp.android.Receipt;
  * Created by vberegovoy on 6/20/17.
  */
 
-abstract public class BaseCardActivity extends Activity implements
+abstract public class BaseExampleActivity extends Activity implements
         View.OnClickListener,
         Cloudipsp.PayCallback,
         Cloudipsp.GooglePayCallback {
@@ -32,7 +32,7 @@ abstract public class BaseCardActivity extends Activity implements
     private static final String K_GOOGLE_PAY_CALL = "google_pay_call";
 
     private EditText editAmount;
-//    private Spinner spinnerCcy;
+    private Spinner spinnerCcy;
     private EditText editEmail;
     private EditText editDescription;
     private CloudipspWebView webView;
@@ -51,7 +51,7 @@ abstract public class BaseCardActivity extends Activity implements
 
         findViewById(R.id.btn_amount).setOnClickListener(this);
         editAmount = findViewById(R.id.edit_amount);
-//        spinnerCcy = findViewById(R.id.spinner_ccy);
+        spinnerCcy = findViewById(R.id.spinner_ccy);
         editEmail = findViewById(R.id.edit_email);
         editDescription = findViewById(R.id.edit_description);
         findViewById(R.id.btn_pay_card).setOnClickListener(this);
@@ -60,8 +60,7 @@ abstract public class BaseCardActivity extends Activity implements
         webView = findViewById(R.id.web_view);
         cloudipsp = new Cloudipsp(1396424, webView);
 
-//        spinnerCcy.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Currency.values()));
-
+        spinnerCcy.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Currency.values()));
 
         if (savedInstanceState != null) {
             googlePayCall = savedInstanceState.getParcelable(K_GOOGLE_PAY_CALL);
@@ -112,7 +111,7 @@ abstract public class BaseCardActivity extends Activity implements
     }
 
     private void fillTest() {
-//        editAmount.setText("1");
+        editAmount.setText("1");
         editEmail.setText("test@example.com");
         editDescription.setText("test payment");
     }
@@ -121,10 +120,9 @@ abstract public class BaseCardActivity extends Activity implements
         final Order order = createOrder();
         if (order != null) {
             final Card card = getCard();
-            System.out.println(card);
             if (card != null) {
                 cloudipsp.pay(card, order, this);
-                Log.i("TAG_PAYMENT", "Order is created");
+                System.out.println("done");
             }
         }
     }
@@ -163,21 +161,17 @@ abstract public class BaseCardActivity extends Activity implements
             editDescription.setError(getString(R.string.e_invalid_description));
             return null;
         }
-//        final Currency currency = (Currency) spinnerCcy.getSelectedItem();
-        final Currency currency = Currency.UAH;
+        final Currency currency = (Currency) spinnerCcy.getSelectedItem();
         final Order order = new Order(amount, currency, "vb_" + System.currentTimeMillis(), description, email);
         order.setLang(Order.Lang.ru);
-        System.out.println(order);
         return order;
     }
 
     @Override
     public void onPaidProcessed(Receipt receipt) {
-//        Toast.makeText(this, "Paid " + receipt.status.name() + "\nPaymentId:" + receipt.paymentId, Toast.LENGTH_LONG).show();
-        Log.i("TAG_PAID_PROCESSED", "Paid Approved");
-        Intent intent_ready = new Intent(this, SuccessfulPaymentActivity.class);
-        startActivity(intent_ready);
-        finish();
+        Log.i("TAG_PAID_PROCESSED", "true");
+        Toast.makeText(this, "Paid " + receipt.status.name() + "\nPaymentId:" + receipt.paymentId, Toast.LENGTH_LONG).show();
+        Log.i("TAG_PAID_PROCESSED", "toast should be created");
     }
 
     @Override

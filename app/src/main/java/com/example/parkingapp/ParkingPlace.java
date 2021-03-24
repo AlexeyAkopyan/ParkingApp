@@ -15,7 +15,10 @@ public class ParkingPlace {
                         List<Integer> working_hours, Integer number_free_places){
         this.loc = new LatLng(lat, lng);
         this.address = address;
-        this.working_hours = working_hours;
+        if (working_hours != null){
+            this.working_hours = working_hours;}
+        else{
+            this.working_hours = working_hours;}
         this.number_free_places = number_free_places;
     }
 
