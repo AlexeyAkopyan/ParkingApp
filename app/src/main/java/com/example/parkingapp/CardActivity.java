@@ -20,11 +20,8 @@ public class CardActivity extends BaseCardActivity {
         if (BuildConfig.DEBUG) {
             cardInput.setHelpedNeeded(true);
         }
-        Intent intent=getIntent();
-
-        Log.i("TAG_PRICE_2", intent.getStringExtra("amount"));
-        editAmount.setText(intent.getStringExtra("amount"));
-        Log.i("TAG_PRICE_3", intent.getStringExtra("amount"));
+        String amount = getIntent().getStringExtra("amount");
+        editAmount.setText(amount.substring(0, amount.length() - 1));
     }
 
 

@@ -112,12 +112,12 @@
 
     <Button
         android:id="@+id/btn_pay_card"
-        android:layout_width="137dp"
-        android:layout_height="55dp"
+        android:layout_width="319dp"
+        android:layout_height="68dp"
         android:layout_marginTop="44dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="@string/btn_pay_card"
+        android:text="@string/pay"
         app:layout_constraintStart_toStartOf="@+id/edit_email"
         app:layout_constraintTop_toBottomOf="@+id/btn_amount" />
 
@@ -125,10 +125,11 @@
         android:id="@+id/btn_pay_google"
         android:layout_width="128dp"
         android:layout_height="53dp"
+        android:layout_marginTop="100dp"
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/btn_pay_google"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_pay_card"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/edit_email"
         app:layout_constraintTop_toTopOf="@+id/btn_pay_card" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -39,8 +39,7 @@
         <activity android:name=".QRcodeActivity" />
         <activity android:name=".SuccessfulPaymentActivity" />
         <activity android:name=".InfoTimeActivity" />
-        <activity android:name=".CarNumberActivity2" />
-        <activity android:name=".CarNumberActivity1" />
+        <activity android:name=".CarNumberActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

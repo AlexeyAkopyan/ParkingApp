@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ public class IntroductionActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
 
         if (restorePrefData()){
-            Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity1.class);
+            Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity.class);
             startActivity(intent_car_number);
             finish();
         }
@@ -57,7 +56,7 @@ public class IntroductionActivity extends AppCompatActivity implements View.OnCl
                     btn_skip.setVisibility(View.VISIBLE);
                 }
                 if (position == mList.size() ){
-                    Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity1.class);
+                    Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity.class);
                     startActivity(intent_car_number);
                     savePrefsData();
                     finish();
@@ -85,7 +84,7 @@ public class IntroductionActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         if (v.getId() == R.id.btn_skip
                 || (v.getId() == R.id.btn_next && screenPager.getCurrentItem() == mList.size() - 1)){
-            Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity1.class);
+            Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity.class);
             startActivity(intent_car_number);
             savePrefsData();
             finish();
@@ -117,7 +116,7 @@ public class IntroductionActivity extends AppCompatActivity implements View.OnCl
 //
 //                }
 //                if (position == mList.size()) {
-//                    Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity1.class);
+//                    Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity.class);
 //                    startActivity(intent_car_number);
 //                    savePrefsData();
 //                    finish();
@@ -126,7 +125,7 @@ public class IntroductionActivity extends AppCompatActivity implements View.OnCl
 //            case R.id.btn_skip:
 //                screenPager.setCurrentItem(screenPager.getCurrentItem() + 1);
 //                screenPager.setCurrentItem(screenPager.getCurrentItem() + 1);
-//                Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity1.class);
+//                Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity.class);
 //                startActivity(intent_car_number);
 //                savePrefsData();
 //                finish();

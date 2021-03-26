@@ -2,41 +2,42 @@ package com.example.parkingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.text.Selection;
+import android.text.Spannable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.Arrays;
-import java.util.List;
-
-public class CarNumberActivity1 extends AppCompatActivity {
+public class CarNumberActivity extends AppCompatActivity implements View.OnClickListener {
     Button btn_go;
-    EditText car_number;
+    TextView txt_no_such_number;
+    EditText car_number, car_number2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (restorePrefData()){
-//            Intent intent_main = new Intent(getApplicationContext(), MainActivity.class);
-//            startActivity(intent_main);
-//            Log.i("TAG_CarNumberWasStored", "Stored");
-//            finish();
-//        }
+        if (restorePrefData()){
+            Intent intent_main = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent_main);
+            finish();
+        }
 
-        setContentView(R.layout.activity_car_number1);
+        setContentView(R.layout.activity_car_number);
 
         btn_go = findViewById(R.id.btn_go);
+        txt_no_such_number = findViewById(R.id.txt_no_such_number);
+        txt_no_such_number.setClickable(true);
         car_number = findViewById(R.id.edit_txt_car_number);
+        car_number2 = findViewById(R.id.edit_txt_car_number2);
+        car_number2.setVisibility(View.INVISIBLE);
         car_number.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
         car_number.addTextChangedListener(new TextWatcher() {
             InputFilter[] CapFilter = new InputFilter[] {new InputFilter.LengthFilter(10)};
@@ -76,28 +77,17 @@ public class CarNumberActivity1 extends AppCompatActivity {
             public void afterTextChanged(Editable s) {}
         });
 
-        btn_go.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (car_number.length() >= 9) {
-                    Intent intent_main = new Intent(getApplicationContext(), MainActivity.class);
-                    savePrefsData();
-                    startActivity(intent_main);
-
-                    finish();
-                }
-                else{
-                    car_number.setError(getString(R.string.incorrect_car_number));}
-            }
-        });
+        btn_go.setOnClickListener(this);
+        txt_no_such_number.setOnClickListener(this);
     }
 
     private void savePrefsData() {
         SharedPreferences pref = getApplicationContext().getSharedPreferences(
                 "CarNumberPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putString("carNumber", car_number.getText().toString());
+        if (car_number.getVisibility() == View.VISIBLE){
+            editor.putString("carNumber", car_number.getText().toString());}
+        else {editor.putString("carNumber", car_number2.getText().toString());}
         editor.putBoolean("wasCarNumberStored", true);
         editor.commit();
     }
@@ -111,4 +101,35 @@ public class CarNumberActivity1 extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_go) {
+            if (car_number.length() >= 9) {
+                Intent intent_main = new Intent(getApplicationContext(), MainActivity.class);
+                savePrefsData();
+                startActivity(intent_main);
+
+                finish();
+            } else {
+                car_number.setError(getString(R.string.incorrect_car_number));
+            }
+        };
+        if (v.getId() == R.id.txt_no_such_number){
+            car_number.setVisibility(View.INVISIBLE);
+            car_number2.setVisibility(View.VISIBLE);
+            txt_no_such_number.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (car_number2.getVisibility() == View.VISIBLE){
+            car_number.setVisibility(View.VISIBLE);
+            car_number2.setVisibility(View.INVISIBLE);
+            txt_no_such_number.setVisibility(View.VISIBLE);
+        }
+        else{
+            super.onBackPressed();
+        }
+    }
 }

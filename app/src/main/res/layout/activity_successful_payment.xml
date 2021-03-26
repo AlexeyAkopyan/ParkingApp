@@ -8,7 +8,7 @@
     android:background="@color/megapurple">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/img_qr_code2"
         android:layout_width="230dp"
         android:layout_height="230dp"
         android:layout_marginTop="124dp"
@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/big_white_check_mark" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/txt_ready"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
@@ -28,10 +28,10 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/img_qr_code2" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/txt_succ_payment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -41,5 +41,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_ready" />
+
+    <TextView
+        android:id="@+id/txt_scan_qr_code2"
+        android:layout_width="312dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="428dp"
+        android:gravity="center"
+        android:text="@string/scan_qr_code"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_ok2"
+        android:layout_width="284dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="92dp"
+        android:backgroundTint="@color/white"
+        android:text="@string/Ok"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_scan_qr_code2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

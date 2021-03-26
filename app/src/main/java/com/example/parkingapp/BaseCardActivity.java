@@ -3,12 +3,14 @@ package com.example.parkingapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -19,6 +21,11 @@ import com.cloudipsp.android.Currency;
 import com.cloudipsp.android.GooglePayCall;
 import com.cloudipsp.android.Order;
 import com.cloudipsp.android.Receipt;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * Created by vberegovoy on 6/20/17.
@@ -54,6 +61,7 @@ abstract public class BaseCardActivity extends Activity implements
 //        spinnerCcy = findViewById(R.id.spinner_ccy);
         editEmail = findViewById(R.id.edit_email);
         editDescription = findViewById(R.id.edit_description);
+        findViewById(R.id.btn_pay_card).setVisibility(View.VISIBLE);
         findViewById(R.id.btn_pay_card).setOnClickListener(this);
         findViewById(R.id.btn_pay_google).setOnClickListener(this);
 
@@ -123,6 +131,7 @@ abstract public class BaseCardActivity extends Activity implements
             final Card card = getCard();
             System.out.println(card);
             if (card != null) {
+                findViewById(R.id.btn_pay_card).setVisibility(View.INVISIBLE);
                 cloudipsp.pay(card, order, this);
                 Log.i("TAG_PAYMENT", "Order is created");
             }
@@ -175,8 +184,13 @@ abstract public class BaseCardActivity extends Activity implements
     public void onPaidProcessed(Receipt receipt) {
 //        Toast.makeText(this, "Paid " + receipt.status.name() + "\nPaymentId:" + receipt.paymentId, Toast.LENGTH_LONG).show();
         Log.i("TAG_PAID_PROCESSED", "Paid Approved");
-        Intent intent_ready = new Intent(this, SuccessfulPaymentActivity.class);
-        startActivity(intent_ready);
+        Intent intent_succ_payment = new Intent(this, SuccessfulPaymentActivity.class);
+        intent_succ_payment.putExtra("paymentId", receipt.paymentId);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            intent_succ_payment.putExtras(bundle);
+        }
+        startActivity(intent_succ_payment);
         finish();
     }
 

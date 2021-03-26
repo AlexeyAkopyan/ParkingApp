@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TableLayout;
-import android.widget.TextView;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
@@ -127,7 +125,7 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
 //
 //                }
 //                if (position == mList.size()) {
-//                    Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity1.class);
+//                    Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity.class);
 //                    startActivity(intent_car_number);
 //                    savePrefsData();
 //                    finish();
@@ -141,7 +139,7 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
 //    }
 
     private void loadNextActivity(boolean savePrefData){
-        Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity1.class);
+        Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity.class);
         startActivity(intent_car_number);
         if (savePrefData) { savePrefsData();}
         finish();

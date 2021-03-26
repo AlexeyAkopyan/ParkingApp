@@ -8,7 +8,7 @@
     tools:context=".QRcodeActivity">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/img_qr_code"
         android:layout_width="264dp"
         android:layout_height="260dp"
         android:layout_marginStart="90dp"
@@ -31,5 +31,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/img_qr_code" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="284dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="92dp"
+        android:backgroundTint="@color/white"
+        android:text="@string/Ok"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 </androidx.constraintlayout.widget.ConstraintLayout>

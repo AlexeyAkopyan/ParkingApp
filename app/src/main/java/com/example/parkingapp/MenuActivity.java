@@ -36,11 +36,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         txt_help_chat = findViewById(R.id.txt_help_chat);
         txt_about_app = findViewById(R.id.txt_about_app);
 
-        SharedPreferences pref = getApplicationContext().getSharedPreferences(
-                "CarNumberPref", MODE_PRIVATE);
-        String car_number = pref.getString("carNumber",
-                getResources().getString(R.string.type_car_number));
-        txt_car_number_menu.setText(car_number);
+
+        txt_car_number_menu.setText(getIntent().getStringExtra("car_number"));
 
         txt_booking_history.setClickable(true);
         txt_payment_type.setClickable(true);

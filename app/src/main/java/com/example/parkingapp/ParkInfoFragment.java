@@ -2,6 +2,10 @@ package com.example.parkingapp;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,8 +16,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import androidx.annotation.DrawableRes;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,24 +30,27 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.example.parkingapp.R.*;
+
 public class ParkInfoFragment extends Fragment implements View.OnClickListener {
 
 
 
     private ParkingPlace selected_place;
     private TextView txt_street;
-    TextView txt_n_free_park_spaces;
-    private EditText txt_time_from_hours;
-    private EditText txt_time_from_minutes;
-    private EditText txt_time_to_hours;
-    private EditText txt_time_to_minutes;
-    Button btn_go_on;
-    private ImageButton btn_time_info;
+    private EditText txt_time_from_hours,
+            txt_time_from_minutes,
+            txt_time_to_hours,
+            txt_time_to_minutes;
+    private TextView txt_time_slot, txt_amount;
+    private  Button btn_go_on;
     private List<Integer> selected_time;
+    private ImageButton btn_pay_type;
     SendTime ST;
 
     interface SendTime {
-        void sendData(List<Integer> message);
+        void sendData(List<Integer> message, String amount);
     }
 
     @Override
@@ -54,14 +65,6 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public void changeSelectedPlace(ParkingPlace place) {
-        selected_place = place;
-        setValidTime();
-        txt_street.setText(selected_place.getAddress());
-        txt_n_free_park_spaces.setText(String.valueOf(selected_place.getNumberFreePlaces()));
-        Log.i("TAG_start", selected_place.getAddress());
-
-    }
 
     public interface OnSelectedButtonListener {
         void onButtonSelected(int id);
@@ -76,16 +79,17 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment1, container, false);
-        txt_street = rootView.findViewById(R.id.txt_street);
-        txt_n_free_park_spaces = rootView.findViewById(R.id.txt_n_free_park_spaces);
-        txt_time_from_hours = rootView.findViewById(R.id.edit_txt_time_from_hours);
-        txt_time_from_minutes = rootView.findViewById(R.id.edit_txt_time_from_minutes);
-        txt_time_to_hours = rootView.findViewById(R.id.edit_txt_time_to_hours);
-        txt_time_to_minutes = rootView.findViewById(R.id.edit_txt_time_to_minutes);
-        Button btn_scroll_down = rootView.findViewById(R.id.btn_scroll_down);
-        btn_go_on = rootView.findViewById(R.id.btn_go_on);
-        btn_time_info = rootView.findViewById(R.id.btn_time_info);
+        View rootView = inflater.inflate(layout.fragment1, container, false);
+        txt_street = rootView.findViewById(id.txt_street);
+        txt_amount = rootView.findViewById(id.txt_amount);
+        txt_time_from_hours = rootView.findViewById(id.edit_txt_time_from_hours);
+        txt_time_from_minutes = rootView.findViewById(id.edit_txt_time_from_minutes);
+        txt_time_to_hours = rootView.findViewById(id.edit_txt_time_to_hours);
+        txt_time_to_minutes = rootView.findViewById(id.edit_txt_time_to_minutes);
+        txt_time_slot =rootView.findViewById(id.txt_time_slot);
+        Button btn_scroll_down = rootView.findViewById(id.btn_scroll_down);
+        btn_go_on = rootView.findViewById(id.btn_go_on);
+        btn_pay_type = rootView.findViewById(id.btn_pay_type);
         TextWatcher txt_watcher =  new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 Log.i("TAG_after_change", "start");
@@ -101,7 +105,7 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
             }
         };
 
-        setValidTime();
+//        setValidTime();
 
         txt_time_from_hours.addTextChangedListener(txt_watcher);
         txt_time_from_minutes.addTextChangedListener(txt_watcher);
@@ -110,13 +114,15 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
 
         btn_scroll_down.setOnClickListener(this);
         btn_go_on.setOnClickListener(this);
-        btn_time_info.setOnClickListener(this);
-        btn_time_info.setVisibility(View.INVISIBLE);
+        btn_pay_type.setOnClickListener(this);
+        txt_time_slot.setOnClickListener(this);
 
-        checkIsTimeValid();
+        setSelectedPayType(restorePrefData());
 
-        txt_street.setText(selected_place.getAddress());
-        txt_n_free_park_spaces.setText(String.valueOf(selected_place.getNumberFreePlaces()));
+//        checkIsTimeValid();
+
+//        txt_street.setText(selected_place.getAddress());
+//        txt_n_free_park_spaces.setText(String.valueOf(selected_place.getNumberFreePlaces()));
         return rootView;
 
     }
@@ -192,17 +198,16 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
         {
             Log.i("TAG_check_valid", "valid");
             btn_go_on.setClickable(true);
-            btn_go_on.setBackgroundColor(getResources().getColor(R.color.megapurple));
+            btn_go_on.setBackgroundColor(getResources().getColor(color.megapurple));
             Log.i("TAG_check_valid", String.valueOf(btn_go_on.isClickable()));
-            btn_time_info.setVisibility(View.INVISIBLE);
+            txt_amount.setText("150₽");
         }
         else
         {
             Log.i("TAG_check_valid", "invalid");
             btn_go_on.setClickable(false);
-            btn_go_on.setBackgroundColor(getResources().getColor(R.color.button_unable));
+            btn_go_on.setBackgroundColor(getResources().getColor(color.button_unable));
             Log.i("TAG_check_valid", String.valueOf(btn_go_on.isClickable()));
-            btn_time_info.setVisibility(View.VISIBLE);
         }
     }
 
@@ -235,25 +240,99 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
 //    }
 
 
+
     public void setSelectedPlace(ParkingPlace place) {
         selected_place = place;
-        Log.i("TAG", selected_place.getAddress());
+//        setValidTime();
+        txt_street.setText(selected_place.getAddress());
+        List<Integer> time_slot = new ArrayList<>(selected_place.getWorkingHours());
+        txt_time_slot.setText(TimeFormat(time_slot.get(0)) + ":" +
+                TimeFormat(time_slot.get(1)) + " - " +
+                TimeFormat(time_slot.get(2))  + ":" +
+                TimeFormat(time_slot.get(3)));
+        Log.i("TAG_start", selected_place.getAddress());
     }
+
+//    public void changeSelectedPlace(ParkingPlace place) {
+//        selected_place = place;
+//        setValidTime();
+//        txt_street.setText(selected_place.getAddress());
+//        txt_n_free_park_spaces.setText(String.valueOf(selected_place.getNumberFreePlaces()));
+//        Log.i("TAG_start", selected_place.getAddress());
+//
+//    }
 
     @Override
     public void onClick(View v) {
-        if ((v.getId() == R.id.btn_go_on) || (v.getId() == R.id.btn_time_info)) {
+        if (v.getId() == id.btn_go_on) {
             Log.i("TAG", selected_place.getAddress());
             Log.i("TAG_check_selected_time", TimeFormat(selected_time.get(0)) +
                     ":" + TimeFormat(selected_time.get(1)) + "   по " + TimeFormat(selected_time.get(2)) +
                     ":" + TimeFormat(selected_time.get(3)));
-            ST.sendData(selected_time);
+            ST.sendData(selected_time, txt_amount.getText().toString());
+        }
+        if (v.getId() == id.txt_time_slot){
+            List<Integer> valid_time = new ArrayList<>(selected_place.getWorkingHours());
+            txt_time_from_hours.setText(TimeFormat(valid_time.get(0)));
+            txt_time_from_minutes.setText(TimeFormat(valid_time.get(1)));
+            txt_time_to_hours.setText(TimeFormat(valid_time.get(2)));
+            txt_time_to_minutes.setText(TimeFormat(valid_time.get(3)));
+            selected_time = valid_time;
+
         }
         OnSelectedButtonListener listener = (OnSelectedButtonListener) getActivity();
         listener.onButtonSelected(v.getId());
-        }
+//        if (v.getId() == id.btn_pay_type){
+//            RippleDrawable btnColor = (RippleDrawable) btn_go_on.getBackground();
+//            if (btnColor.getColor() == getResources().getColor(R.color.button_unable)){
+//                OnSelectedButtonListener listener = (OnSelectedButtonListener) getActivity();
+//                listener.onButtonSelected(v.getId());
+//            }
+//        }
 
     }
+
+    public void setSelectedPayType(Integer id){
+        if (id == R.id.txt_google_pay){
+            btn_pay_type.setImageResource(drawable.ic_gpay);
+            btn_go_on.setBackgroundColor(getResources().getColor(R.color.black));
+            btn_pay_type.setBackgroundResource(0);
+        }
+        if (id == R.id.txt_master_card){
+            btn_pay_type.setImageResource(drawable.ic_mc_card);
+            btn_go_on.setBackgroundColor(getResources().getColor(color.megapurple));
+            btn_pay_type.setBackgroundResource(drawable.card_box);
+
+        }
+        if (id == R.id.txt_new_card){
+            btn_pay_type.setImageResource(drawable.ic_card);
+            btn_go_on.setBackgroundColor(getResources().getColor(color.megapurple));
+            btn_pay_type.setBackgroundResource(drawable.card_box);
+        }
+    }
+
+    private Integer restorePrefData() {
+        SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("PaymentTypePref", MODE_PRIVATE);
+        Integer lastSelectedPayType = pref.getInt("lastSelectedPayType", id.txt_new_card);
+        return lastSelectedPayType;
+    }
+
+//
+//    public TextView createTimeSlot(List<Integer> time_slot){
+//        LinearLayout timeItem =  new LinearLayout(layout.item_time_slot);
+//        timeItem.setText(TimeFormat(time_slot.get(0)) + ":" +
+//                TimeFormat(time_slot.get(1)) + " - " +
+//                TimeFormat(time_slot.get(2))  + ":" +
+//                TimeFormat(time_slot.get(3)));
+//        timeItem.setLayoutParams(new LinearLayout.LayoutParams(200, 56));
+//        timeItem.setTextColor(getResources().getColor(color.black));
+//
+//        timeItem.setBackground(getResources().getDrawable(R.drawable.time_slot_box));
+//    }
+
+
+    }
+
 
 //public class FragmentOne extends Fragment {
 //
