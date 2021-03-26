@@ -3,6 +3,7 @@ package com.example.parkingapp;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,12 @@ import android.widget.LinearLayout;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.example.parkingapp.net.OrderService;
+import com.example.parkingapp.net.ParkingService;
+import com.example.parkingapp.net.WebSocketConnection;
+import com.example.parkingapp.objects.Constants;
 import com.example.parkingapp.objects.Order;
+import com.example.parkingapp.objects.Parking;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,6 +35,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -72,6 +80,14 @@ public class MainActivity extends AppCompatActivity
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
         CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinator_layout);
+
+
+
+            try {
+                connect();
+            } catch (InterruptedException | IOException e) {
+                e.printStackTrace();
+            }
 
 //        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 //        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
@@ -301,34 +317,33 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public static void connect() throws InterruptedException {
-        WebSocketConnection connection = new WebSocketConnection("http://10.0.2.2:8080/client");
+    public static void connect() throws InterruptedException, IOException {
+        ParkingService parkingService = new ParkingService();
+        OrderService orderService = new OrderService();
+        WebSocketConnection connection = new WebSocketConnection(Constants.LOCALHOST_URL_ANDROID, parkingService, orderService);
         connection.init();
+        while (parkingService.getParkingList().size() < 1) {
+            Thread.sleep(1000);
+        }
+        List<Parking> parkingList = parkingService.getParkingList(); // list of all parkings received from server
+                                                                    // also can use getParkingPlaceList instead
         Random random = new Random();
-        Integer count = 0;
-        while (count < 100) {
-            count++;
-            if (connection.getParkingList() != null) {
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                }
-                int parkingId = random.nextInt(connection.getParkingList().size());
-                String carNum = "car" + random.nextInt(100);
-                Date start = new Date(new Date().getTime() + random.nextInt(3600 * 1000 * 8) + 3600 * 1000);
-                Date finish = new Date(start.getTime() + 3600 * 1000);
-                String paymentInfo = "here comes some payment information " + random.nextInt(100);
-                Order order = new Order(null, (long) parkingId, carNum, start.getTime(),
-                        finish.getTime(), paymentInfo);
-                connection.sendOrder(order);
-                Log.i("TAG_CONNECT", start.toString());
-            } else {
-                System.out.println("pList is null");
-
-                Thread.sleep(2000);
-            }
+        String paymentInfo = "paymentInfo";
+        System.out.println(parkingList.toString());
+        for (int i = 0; i < 100; i++) {
+            int parkingId = random.nextInt(parkingList.size());
+            parkingId = Math.toIntExact(parkingList.get(parkingId).getId());
+            Long start = new Date().getTime() + random.nextInt(3600 * 1000 * 8);
+            Long finish = start + 600 * 1000 * (random.nextInt(24) + 1);
+            String carNumber = "car" + random.nextInt(1000);
+            Order order = new Order((long)parkingId, carNumber, start, finish, random.nextLong());
+            System.out.println("order sent: " + order.toString());
+            connection.sendOrder(order);
+            Thread.sleep(10000);
         }
     }
+
+
 }
 
 

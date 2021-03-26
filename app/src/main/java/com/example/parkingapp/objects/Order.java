@@ -24,13 +24,26 @@ public class Order {
         this.paymentInfo = paymentInfo;
     }
 
+    public Order(Long parkingId, String carNumber,
+                 Long start, Long finish, Long paymentInfo) {
+        this.id = -new Date().getTime();
+        this.parkingId = parkingId;
+        this.carNumber = carNumber;
+        this.start = new Date(start);
+        this.finish = new Date(finish);
+        this.paymentInfo = paymentInfo.toString();
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
-        if (this.id != null)
+        if (this.id == null)
             this.id = id;
+        else if (this.id < 0) {
+            this.id = id;
+        }
     }
 
     public Long getParkingId() {
@@ -65,5 +78,17 @@ public class Order {
             System.out.println("Illegal string format");
         }
         return null;
+    }
+
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        if (!(o instanceof Order)) return false;
+        Order order = (Order) o;
+        if (!order.getParkingId().equals(this.parkingId)) return false;
+        if (!order.getCarNumber().equals(this.carNumber)) return false;
+        if (!order.getStart().equals(this.start)) return false;
+        if (!order.getFinish().equals(this.finish)) return false;
+        //if (!order.getPaymentInfo().equals(this.paymentInfo)) return false;
+        return true;
     }
 }
