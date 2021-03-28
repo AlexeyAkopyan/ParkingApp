@@ -295,7 +295,7 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
     public void setSelectedPayType(Integer id){
         if (id == R.id.txt_google_pay){
             btn_pay_type.setImageResource(drawable.ic_gpay);
-            btn_go_on.setBackgroundColor(getResources().getColor(R.color.black));
+            btn_go_on.setBackgroundColor(getResources().getColor(R.color.megapurple));
             btn_pay_type.setBackgroundResource(0);
         }
         if (id == R.id.txt_master_card){

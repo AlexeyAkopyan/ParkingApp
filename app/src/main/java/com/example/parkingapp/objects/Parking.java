@@ -4,6 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Parking {
     private Long id;
     private Coordinates coordinates;
@@ -47,5 +50,24 @@ public class Parking {
             System.out.println("Illegal string format");
         }
         return null;
+    }
+
+    public String getAddress() {
+        int split = info.indexOf('|');
+        return info.substring(0, split);
+    }
+
+    public List<Integer> getWorkingHours() {
+        String[] subs = info.split("\\|");
+        List<Integer> workingHours = new ArrayList<>();
+        for (int i = 1; i <= 4; i++) {
+            workingHours.add(Integer.parseInt(subs[i]));
+        }
+        return workingHours;
+    }
+
+    public String getTariffPlane() {
+        int split = info.lastIndexOf("|");
+        return info.substring(split + 1);
     }
 }

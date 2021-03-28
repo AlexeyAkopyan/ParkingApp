@@ -4,7 +4,9 @@ import androidx.annotation.DrawableRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.parkingapp.objects.Order;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -25,10 +28,18 @@ public class SuccessfulPaymentActivity extends AppCompatActivity {
             txt_succ_payment,
             txt_scan_qr_code;
     Button btn_ok;
+    private static SuccessfulPaymentActivity context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_successful_payment);
+        context = this;
+
+        qr_code = findViewById(R.id.img_qr_code2);
+        txt_ready = findViewById(R.id.txt_ready);
+        txt_succ_payment = findViewById(R.id.txt_succ_payment);
+        txt_scan_qr_code = findViewById(R.id.txt_scan_qr_code2);
+        btn_ok = findViewById(R.id.btn_ok2);
 
         Intent intent_payment = getIntent();
         int parkingId = intent_payment.getIntExtra("parkingId", 0);
@@ -40,16 +51,30 @@ public class SuccessfulPaymentActivity extends AppCompatActivity {
         Calendar finish = new GregorianCalendar();
         finish.set(Calendar.HOUR_OF_DAY, selected_time.get(2));
         finish.set(Calendar.MINUTE, selected_time.get(3));
-        String paymentInfo = "here comes some payment information " + intent_payment.getIntExtra("paymentId", 0);
-        com.example.parkingapp.objects.Order order = new com.example.parkingapp.objects.Order(null, (long) parkingId, carNum, start.getTimeInMillis(),
+        Long paymentInfo = Long.valueOf(intent_payment.getIntExtra("paymentId", 0));
+        Order order = new Order((long) parkingId, carNum, start.getTimeInMillis(),
                 finish.getTimeInMillis(), paymentInfo);
+        System.out.println(order.getId());
+        System.out.println(MainActivity.connection);
         MainActivity.connection.sendOrder(order);
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(order.getId());
 
-        qr_code = findViewById(R.id.img_qr_code2);
-        txt_ready = findViewById(R.id.txt_ready);
-        txt_succ_payment = findViewById(R.id.txt_succ_payment);
-        txt_scan_qr_code = findViewById(R.id.txt_scan_qr_code2);
-        btn_ok = findViewById(R.id.btn_ok2);
+        Bitmap bitmap = null;
+        try {
+            bitmap = MainActivity.orderService.getQR();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(bitmap);
+        if (bitmap != null){
+            qr_code.setImageBitmap(bitmap);
+        }
+
 
         qr_code.setImageResource(R.drawable.button_light_box);
         txt_ready.setVisibility(View.INVISIBLE);
@@ -70,7 +95,12 @@ public class SuccessfulPaymentActivity extends AppCompatActivity {
 
         }
 
+    public static SuccessfulPaymentActivity getContext() {
+        return context;
     }
+}
+
+
 
 //    private void sendOrder(String carNum, Integer parkingId, Date start, Date finish, String paymentInfo) {
 //

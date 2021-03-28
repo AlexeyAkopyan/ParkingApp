@@ -17,6 +17,9 @@ import android.widget.LinearLayout;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.example.parkingapp.client.OrderService;
+import com.example.parkingapp.client.ParkingService;
+import com.example.parkingapp.objects.Constants;
 import com.example.parkingapp.objects.Order;
 import com.example.parkingapp.objects.Parking;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,6 +36,16 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import com.example.parkingapp.client.OrderService;
+import com.example.parkingapp.client.ParkingService;
+import com.example.parkingapp.client.WebSocketConnection;
+import com.example.parkingapp.objects.Constants;
+import com.example.parkingapp.objects.Order;
+import com.example.parkingapp.objects.Parking;
+
+import java.io.File;
+import java.util.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,6 +75,8 @@ public class MainActivity extends AppCompatActivity
     public ParkingPlace selected_place = null;
     private List<Parking> parkingList = null;
     public static WebSocketConnection connection;
+    public static OrderService orderService;
+    public static ParkingService parkingService;
     private String amount;
     public static String car_number;
     private Integer pay_type;
@@ -79,8 +94,23 @@ public class MainActivity extends AppCompatActivity
         btn_menu = findViewById(R.id.btn_menu);
         btn_menu.setOnClickListener(this);
 
-        connection = new WebSocketConnection("http://10.0.2.2:8080/client");
+//        connection = new WebSocketConnection("http://10.0.2.2:8080/client");
+//        connection.init();
+        parkingService = new ParkingService();
+        orderService = new OrderService();
+        connection = new WebSocketConnection(Constants.LOCALHOST_URL_ANDROID, parkingService, orderService);
         connection.init();
+//        while (parkingService.getParkingList().size() < 1) {
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        List<Parking> parkingList = parkingService.getParkingList();
+        System.out.println(parkingList);
+
+
         Log.i("TAG_CREATE", "MainActivity Created");
         parking_book = getParkingBook();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -214,7 +244,7 @@ public class MainActivity extends AppCompatActivity
                 intent_go_on.putExtra("selected_time", new ArrayList<>(selected_time));
                 intent_go_on.putExtra("PayType", pay_type);
                 startActivity(intent_go_on);
-                finish();
+//                finish();
                 break;
 
 //            case R.id.btn_time_info:
@@ -299,35 +329,35 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public static List<Parking> connect() throws InterruptedException {
-        WebSocketConnection connection = new WebSocketConnection("http://10.0.2.2:8080/client");
-        connection.init();
-        Random random = new Random();
-        Integer count = 0;
-        while (count < 100) {
-            count++;
-            if (connection.getParkingList() != null) {
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                }
-                int parkingId = random.nextInt(connection.getParkingList().size());
-                String carNum = "car" + random.nextInt(100);
-                Date start = new Date(new Date().getTime() + random.nextInt(3600 * 1000 * 8) + 3600 * 1000);
-                Date finish = new Date(start.getTime() + 3600 * 1000);
-                String paymentInfo = "here comes some payment information " + random.nextInt(100);
-                Order order = new Order(null, (long) parkingId, carNum, start.getTime(),
-                        finish.getTime(), paymentInfo);
-                connection.sendOrder(order);
-                Log.i("TAG_CONNECT", start.toString());
-            } else {
-                System.out.println("pList is null");
-
-                Thread.sleep(2000);
-            }
-        }
-        return connection.getParkingList();
-    }
+//    public static List<Parking> connect() throws InterruptedException {
+//        WebSocketConnection connection = new WebSocketConnection("http://10.0.2.2:8080/client");
+//        connection.init();
+//        Random random = new Random();
+//        Integer count = 0;
+//        while (count < 100) {
+//            count++;
+//            if (connection.getParkingList() != null) {
+//                try {
+//                    Thread.sleep(5000);
+//                } catch (InterruptedException e) {
+//                }
+//                int parkingId = random.nextInt(connection.getParkingList().size());
+//                String carNum = "car" + random.nextInt(100);
+//                Date start = new Date(new Date().getTime() + random.nextInt(3600 * 1000 * 8) + 3600 * 1000);
+//                Date finish = new Date(start.getTime() + 3600 * 1000);
+//                String paymentInfo = "here comes some payment information " + random.nextInt(100);
+//                Order order = new Order(null, (long) parkingId, carNum, start.getTime(),
+//                        finish.getTime(), paymentInfo);
+//                connection.sendOrder(order);
+//                Log.i("TAG_CONNECT", start.toString());
+//            } else {
+//                System.out.println("pList is null");
+//
+//                Thread.sleep(2000);
+//            }
+//        }
+//        return connection.getParkingList();
+//    }
 
     @Override
     public void OnCardSelected(Integer id) {

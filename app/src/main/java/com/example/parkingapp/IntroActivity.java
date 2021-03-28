@@ -167,7 +167,6 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
             btn_next.setVisibility(View.VISIBLE);
             btn_all_clear.setVisibility(View.INVISIBLE);
 
-
         }
     }
 

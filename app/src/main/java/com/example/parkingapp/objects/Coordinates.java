@@ -10,8 +10,8 @@ public class Coordinates {
     }
 
     public Coordinates(double[] coords) {
-        this.latitude = coords[0];
-        this.longitude = coords[1];
+            this.latitude = coords[0];
+            this.longitude = coords[1];
 
     }
 

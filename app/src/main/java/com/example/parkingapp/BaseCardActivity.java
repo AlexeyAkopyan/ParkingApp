@@ -130,8 +130,18 @@ abstract public class BaseCardActivity extends Activity implements
         if (order != null) {
             final Card card = getCard();
             System.out.println(card);
+
+//            Intent intent_succ_payment = new Intent(this, SuccessfulPaymentActivity.class);
+//            intent_succ_payment.putExtra("paymentId", "01234"); //receipt.paymentId);
+//            Bundle bundle = getIntent().getExtras();
+//            if (bundle != null) {
+//                intent_succ_payment.putExtras(bundle);
+//            }
+//            startActivity(intent_succ_payment);
+//            finish();
+
             if (card != null) {
-                findViewById(R.id.btn_pay_card).setVisibility(View.INVISIBLE);
+//                findViewById(R.id.btn_pay_card).setVisibility(View.INVISIBLE);
                 cloudipsp.pay(card, order, this);
                 Log.i("TAG_PAYMENT", "Order is created");
             }
