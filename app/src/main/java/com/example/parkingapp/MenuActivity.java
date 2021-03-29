@@ -17,12 +17,15 @@ import org.w3c.dom.Text;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageButton btn_close_menu;
-    private TextView txt_car_number_menu;
-    private TextView txt_booking_history;
-    private TextView txt_payment_type;
-    private TextView txt_help_chat;
-    private TextView txt_about_app;
+    private ImageButton
+            btn_close_menu,
+            btn_change_car_number;
+    private TextView
+            txt_car_number_menu,
+            txt_booking_history,
+            txt_payment_type,
+            txt_help_chat,
+            txt_about_app;
 
 
     @Override
@@ -30,6 +33,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         btn_close_menu = findViewById(R.id.btn_close_menu);
+        btn_change_car_number = findViewById(R.id.btn_change_car_number);
         txt_car_number_menu = findViewById(R.id.txt_car_number_menu);
         txt_booking_history = findViewById(R.id.txt_booking_history);
         txt_payment_type = findViewById(R.id.txt_payment_type);
@@ -50,14 +54,16 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         txt_help_chat.setOnClickListener(this);
         txt_about_app.setOnClickListener(this);
         Context context = getApplicationContext();
-        Toast toast = Toast.makeText(context, "Paid "  + "\nPaymentId:" + "245", Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
-        toast.show();
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
+            case R.id.btn_change_car_number:
+                Intent intent_change_car_number = new Intent(this, CarNumberActivity.class);
+                startActivity(intent_change_car_number);
+                break;
+
             case R.id.txt_booking_history:
                 Intent intent_booking_history = new Intent(this, HistoryActivity.class);
                 startActivity(intent_booking_history);
@@ -81,6 +87,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_close_menu:
                 this.finish();
                 break;
+
         }
 
     }

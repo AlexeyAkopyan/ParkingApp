@@ -62,13 +62,14 @@ abstract public class BaseCardActivity extends Activity implements
 //        spinnerCcy = findViewById(R.id.spinner_ccy);
         editEmail = findViewById(R.id.edit_email);
         editDescription = findViewById(R.id.edit_description);
+        findViewById(R.id.btn_pay_card).setVisibility(View.VISIBLE);
         Button btn_pay_card = findViewById(R.id.btn_pay_card);
-        btn_pay_card.setVisibility(View.VISIBLE);
+        btn_pay_card.setOnClickListener(this);
         btn_pay_card.setBackground(getDrawable(R.drawable.rounded_rectangle));
-//        btn_pay_card.setBackgroundColor(getColor(R.color.megapurple));
-
-        findViewById(R.id.btn_pay_card).setOnClickListener(this);
-        findViewById(R.id.btn_pay_google).setOnClickListener(this);
+        btn_pay_card.setBackgroundColor(getResources().getColor(R.color.megapurple));
+        btn_pay_card.setOnClickListener(this);
+        btn_pay_card.setTextSize(18);
+        btn_pay_card.setTextColor(getColor(android.R.color.white));
 
         webView = findViewById(R.id.web_view);
         cloudipsp = new Cloudipsp(1396424, webView);
@@ -146,7 +147,12 @@ abstract public class BaseCardActivity extends Activity implements
             finish();
 
 //            if (card != null) {
-////                findViewById(R.id.btn_pay_card).setVisibility(View.INVISIBLE);
+//                findViewById(R.id.btn_pay_card).setVisibility(View.INVISIBLE);
+//                findViewById(R.id.card_input).setVisibility(View.INVISIBLE);
+//                findViewById(R.id.edit_email).setVisibility(View.INVISIBLE);
+//                findViewById(R.id.txt_email).setVisibility(View.INVISIBLE);
+//                findViewById(R.id.btn_amount).setVisibility(View.INVISIBLE);
+//                findViewById(R.id.edit_amount).setVisibility(View.INVISIBLE);
 //                cloudipsp.pay(card, order, this);
 //                Log.i("TAG_PAYMENT", "Order is created");
 //            }

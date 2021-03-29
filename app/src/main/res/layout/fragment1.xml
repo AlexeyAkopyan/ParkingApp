@@ -214,7 +214,7 @@
         android:id="@+id/inner_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/toolbar_box"
+        android:background="@drawable/button_amount_card"
         android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">

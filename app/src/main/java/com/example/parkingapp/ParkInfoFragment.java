@@ -1,5 +1,6 @@
 package com.example.parkingapp;
 
+import android.animation.Animator;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,7 +13,10 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -94,6 +98,7 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
             public void afterTextChanged(Editable s) {
                 Log.i("TAG_after_change", "start");
                 checkIsTimeValid();
+//                txt_amount.setText("360₽");
             }
 
             public void beforeTextChanged(CharSequence s, int start,
@@ -200,7 +205,17 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
             btn_go_on.setClickable(true);
             btn_go_on.setBackgroundColor(getResources().getColor(color.megapurple));
             Log.i("TAG_check_valid", String.valueOf(btn_go_on.isClickable()));
-            txt_amount.setText("150₽");
+
+
+            int cx = - txt_amount.getMeasuredWidth();
+            int cy = txt_amount.getMeasuredHeight() / 2;
+            int finalRadius = (int) Math.hypot(txt_amount.getWidth() * 2, txt_amount.getHeight());
+            Animator anim_amount = ViewAnimationUtils.createCircularReveal(txt_amount, cx, cy, 0, finalRadius);
+            anim_amount.setDuration(1000);
+            txt_amount.setText("470₽");
+            txt_amount.setVisibility(View.VISIBLE);
+            anim_amount.start();
+            MainActivity.selected_time = selected_time;
         }
         else
         {
@@ -298,12 +313,12 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
             btn_go_on.setBackgroundColor(getResources().getColor(R.color.megapurple));
             btn_pay_type.setBackgroundResource(0);
         }
-        if (id == R.id.txt_master_card){
-            btn_pay_type.setImageResource(drawable.ic_mc_card);
-            btn_go_on.setBackgroundColor(getResources().getColor(color.megapurple));
-            btn_pay_type.setBackgroundResource(drawable.card_box);
+//        if (id == R.id.txt_master_card){
+//            btn_pay_type.setImageResource(drawable.ic_mc_card);
+//            btn_go_on.setBackgroundColor(getResources().getColor(color.megapurple));
+//            btn_pay_type.setBackgroundResource(drawable.card_box);
 
-        }
+//        }
         if (id == R.id.txt_new_card){
             btn_pay_type.setImageResource(drawable.ic_card);
             btn_go_on.setBackgroundColor(getResources().getColor(color.megapurple));

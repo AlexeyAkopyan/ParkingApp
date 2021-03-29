@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -40,61 +42,68 @@ public class SuccessfulPaymentActivity extends AppCompatActivity {
         txt_succ_payment = findViewById(R.id.txt_succ_payment);
         txt_scan_qr_code = findViewById(R.id.txt_scan_qr_code2);
         btn_ok = findViewById(R.id.btn_ok2);
+        Runnable launchTask = new Runnable() {
 
-        Intent intent_payment = getIntent();
-        Long parkingId = intent_payment.getLongExtra("parkingId", -1);
-        List<Integer> selected_time = intent_payment.getIntegerArrayListExtra("selected_time");
-        String carNum = "car" + MainActivity.car_number;
-        Calendar start = new GregorianCalendar();
-        start.set(Calendar.HOUR_OF_DAY, selected_time.get(0));
-        start.set(Calendar.MINUTE, selected_time.get(1));
-        Calendar finish = new GregorianCalendar();
-        finish.set(Calendar.HOUR_OF_DAY, selected_time.get(2));
-        finish.set(Calendar.MINUTE, selected_time.get(3));
-        Long paymentInfo = Long.valueOf(intent_payment.getIntExtra("paymentId", 0));
-        Order order = new Order(parkingId, carNum, start.getTimeInMillis(),
-                finish.getTimeInMillis(), paymentInfo);
+            @Override
+            public void run() {
+                Intent intent_payment = getIntent();
+                int parkingId = intent_payment.getIntExtra("parkingId", 0);
+                List<Integer> selected_time = intent_payment.getIntegerArrayListExtra("selected_time");
+                String carNum = "car" + MainActivity.car_number;
+                Calendar start = new GregorianCalendar();
+                start.set(Calendar.HOUR_OF_DAY, selected_time.get(0));
+                start.set(Calendar.MINUTE, selected_time.get(1));
+                Calendar finish = new GregorianCalendar();
+                finish.set(Calendar.HOUR_OF_DAY, selected_time.get(2));
+                finish.set(Calendar.MINUTE, selected_time.get(3));
+                Long paymentInfo = Long.valueOf(intent_payment.getIntExtra("paymentId", 0));
+                Order order = new Order((long) parkingId, carNum, start.getTimeInMillis(),
+                        finish.getTimeInMillis(), paymentInfo);
 
-        System.out.println(MainActivity.connection);
-        MainActivity.connection.sendOrder(order);
-        System.out.println(order.getId());
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println(order.getId());
+                System.out.println(MainActivity.connection);
+                MainActivity.connection.sendOrder(order);
+                System.out.println(order);
+                System.out.println(order.getId());
 
+
+
+
+            }
+        };
+        txt_scan_qr_code.postDelayed(launchTask, 3000);
         Bitmap bitmap = null;
         try {
             bitmap = MainActivity.orderService.encodeAsBitmap();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i("TAG_BITMAP", String.valueOf(bitmap != null));
-        if (bitmap != null){
-            img_qr_code.setImageBitmap(bitmap);
-        }
-        System.out.println(MainActivity.orderService.getOrderList());
+        System.out.println(bitmap);
 
-
-//        img_qr_code.setImageResource(R.drawable.button_light_box);
         txt_ready.setVisibility(View.INVISIBLE);
         txt_succ_payment.setVisibility(View.INVISIBLE);
         txt_scan_qr_code.setVisibility(View.VISIBLE);
         btn_ok.setVisibility(View.VISIBLE);
+        }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+//        img_qr_code.setImageResource(R.drawable.button_light_box);
+//        txt_ready.setVisibility(View.INVISIBLE);
+//        txt_succ_payment.setVisibility(View.INVISIBLE);
+//        txt_scan_qr_code.setVisibility(View.VISIBLE);
+//        btn_ok.setVisibility(View.VISIBLE);
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_main = new Intent(SuccessfulPaymentActivity.this, MainActivity.class);
-                startActivity(intent_main);
+//                Intent intent_main = new Intent(SuccessfulPaymentActivity.this, MainActivity.class);
+//                startActivity(intent_main);
                 finish();
             }
         });
-
-
-
-        }
+    }
 
     public static SuccessfulPaymentActivity getContext() {
         return context;

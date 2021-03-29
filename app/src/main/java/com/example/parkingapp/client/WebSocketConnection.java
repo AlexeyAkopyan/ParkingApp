@@ -8,7 +8,6 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.ImageView;
 
 import com.example.parkingapp.SuccessfulPaymentActivity;
 import com.example.parkingapp.objects.Constants;
@@ -84,7 +83,6 @@ public class WebSocketConnection {
         String message = MessageGenerator.SEND_ORDER + order.toString();
         webSocket.send(message);
         this.orderService.add(order);
-        Log.i("TAG_from_WbScCnn", order.getId().toString());
         System.out.println("Order sent: " + message);
     }
 
@@ -219,7 +217,7 @@ public class WebSocketConnection {
 //        BitmapFactory.Options options = new BitmapFactory.Options();
 //        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 //        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes.toByteArray(), 0, bytes.size(), options);
-//        SuccessfulPaymentActivity.img_qr_code.setImageBitmap(bitmap);
+//        return bitmap;
 
 
 //        com.google.zxing.Writer writer = new QRCodeWriter();
@@ -253,21 +251,6 @@ public class WebSocketConnection {
 //        }
 //        return null;
 
-//        Long id = bytes.asByteBuffer().getLong();
-//        Context context = SuccessfulPaymentActivity.getContext();
-//        String filename = "qrq" + id + ".png";
-//        try (FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE)) {
-//            fos.write(bytes.toByteArray());
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-//        Bitmap bmp = BitmapFactory.decodeByteArray(bytes.toByteArray(), 0, bytes.size());
-//
-//        SuccessfulPaymentActivity.img_qr_code.setImageBitmap(bmp);
-
 
 
         Long id = bytes.asByteBuffer().getLong();
@@ -277,26 +260,27 @@ public class WebSocketConnection {
         File file = new File(path, filename);
 
         try {
+            // Very simple code to copy a picture from the application's
+            // resource into the external file.  Note that this code does
+            // no error checking, and assumes the picture is small (does not
+            // try to copy it in chunks).  Note that if external storage is
+            // not currently mounted this will silently fail.
             OutputStream os = new FileOutputStream(file);
-            os.write(bytes.toByteArray());
+
+            os.write(bytes.toByteArray(), 0, bytes.size());//, Long.BYTES, bytes.size() - Long.BYTES);
             os.close();
 
             // Tell the media scanner about the new file so that it is
             // immediately available to the user.
             MediaScannerConnection.scanFile(context,
-                    new String[] { file.toString() }, null,
+                    new String[]{file.toString()}, null,
                     new MediaScannerConnection.OnScanCompletedListener() {
                         public void onScanCompleted(String path, Uri uri) {
                             Log.i("ExternalStorage", "Scanned " + path + ":");
                             Log.i("ExternalStorage", "-> uri=" + uri);
                         }
                     });
-        } catch (IOException e) {
-            // Unable to create file, likely because external storage is
-            // not currently mounted.
-            Log.w("ExternalStorage", "Error writing " + file, e);
-        }
-
+//
 //        try {
 //            // Very simple code to copy a picture from the application's
 //            // resource into the external file.  Note that this code does
@@ -323,6 +307,11 @@ public class WebSocketConnection {
 //            // not currently mounted.
 //            Log.w("ExternalStorage", "Error writing " + file, e);
 //        }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     void deleteExternalStoragePrivatePicture() {

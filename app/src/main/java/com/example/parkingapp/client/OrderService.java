@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Environment;
+import android.os.FileUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -106,6 +107,21 @@ public class OrderService {
 //        }
 //        return bytes;
 //
+//
+//        try {
+//            File f=new File(path, "profile.jpg");
+//            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+//            img.setImageBitmap(b);
+//        }
+//        catch (FileNotFoundException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        Bitmap bitmap = BitmapFactory.decodeFile();
+//        ByteArrayOutputStream blob = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.PNG, 0 /* Ignored for PNGs */, blob);
+//        byte[] bitmapdata = blob.toByteArray();
+//    }
 
 //    public Bitmap getQR() throws Exception {
 //
@@ -147,23 +163,35 @@ public class OrderService {
 //            throw new FileNotFoundException("QR code not found: get QR again from server");
 //        return qrFile;
 
-        String filename = "qr" + id + ".png";
-        Context context = SuccessfulPaymentActivity.getContext();
-
+//        String filename = "qr" + id + ".png";
+//        Context context = SuccessfulPaymentActivity.getContext();
 //        File path = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-//        File file = new File(filename);
-//        FileInputStream file = context.openFileInput(filename);
-//        FileInputStream fis = new FileInputStream(filename);
-//        Bitmap bitmap = BitmapFactory.decodeFile(file.getFD() + filename);
+//        File file = new File(path, filename);
+//        FileInputStream fis = context.openFileInput(filename);
+//        byte[] bytes = FileUtils.rea
+//        Bitmap bitmap = BitmapFactory.decode(fis);
 //        return bitmap;
 
-
-        File file = new File("/storage/emulated/0/Android/data/com.example.parkingapp/files/Pictures/" + filename); //or any other format supported
-        FileInputStream streamIn = new FileInputStream(file);
-        Bitmap bitmap = BitmapFactory.decodeStream(streamIn); //This gets the image
-        streamIn.close();
+        String filename = "qr" + id + ".png";
+        Context context = SuccessfulPaymentActivity.getContext();
+        File path = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File file = new File(path, filename);
+        int size = (int) file.length();
+        byte[] bytes = new byte[size];
+        try {
+            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+            buf.read(bytes, 0, bytes.length);
+            buf.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        Bitmap bitmap1 = BitmapFactory.decodeByteArray(bytes, Long.BYTES, bytes.length - Long.BYTES);
         return bitmap;
-
 //        Bitmap bitmap = BitmapFactory.decodeStream(file);
 
 //        Map<EncodeHintType, Object> hints = null;

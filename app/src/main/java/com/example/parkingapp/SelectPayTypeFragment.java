@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +23,11 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SelectPayTypeFragment extends BottomSheetDialogFragment implements View.OnClickListener {
 
-    BottomSheetDialogListener bListener;
-    TextView txt_google_pay,
-    txt_master_card_pay,
-    txt_new_card_pay;
+    private BottomSheetDialogListener bListener;
+    private TextView
+            txt_google_pay,
+            txt_master_card_pay,
+            txt_new_card_pay;
 
 
     @Override
@@ -40,15 +42,16 @@ public class SelectPayTypeFragment extends BottomSheetDialogFragment implements 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_select_pay_type, container, false);
         txt_google_pay = rootView.findViewById(R.id.txt_google_pay);
-        txt_master_card_pay = rootView.findViewById(R.id.txt_master_card);
+//        txt_master_card_pay = rootView.findViewById(R.id.txt_master_card);
         txt_new_card_pay = rootView.findViewById(R.id.txt_new_card);
         txt_google_pay.setOnClickListener(this);
-        txt_master_card_pay.setOnClickListener(this);
+//        txt_master_card_pay.setOnClickListener(this);
         txt_new_card_pay.setOnClickListener(this);
 
-        TextView last_selected = rootView.findViewById(restorePrefData());
-        last_selected.setCompoundDrawables(last_selected.getCompoundDrawables()[0], null,
-                getResources().getDrawable(R.drawable.ic_checkmark, getActivity().getTheme()), null);
+//        TextView last_selected = rootView.findViewById(restorePrefData());
+//        Drawable[] draw = last_selected.getCompoundDrawables();
+//        last_selected.setCompoundDrawables(last_selected.getCompoundDrawables()[0], null,
+//                getResources().getDrawable(R.drawable.ic_checkmark, getActivity().getTheme()), null);
         return rootView;
     }
 
@@ -85,6 +88,7 @@ public class SelectPayTypeFragment extends BottomSheetDialogFragment implements 
     private Integer restorePrefData() {
         SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("PaymentTypePref", MODE_PRIVATE);
         Integer lastSelectedPayType = pref.getInt("lastSelectedPayType", R.id.txt_new_card);
+        Log.i("TAG_LAST_PAY_TYPE", String.valueOf(lastSelectedPayType));
         return lastSelectedPayType;
     }
 }

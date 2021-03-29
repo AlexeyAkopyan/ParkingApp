@@ -58,15 +58,26 @@
         tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
 
 
-
-
+    <Button
+        android:id="@+id/btn_show_qr_code"
+        android:layout_width="298dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="44dp"
+        android:backgroundTint="@color/megapurple"
+        android:text="@string/press_here_to_open_qr_code"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.238"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/toolbar_box"
+        android:backgroundTint="@color/white"
         android:elevation="20dp">
 
         <ImageButton
@@ -136,16 +147,7 @@
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="298dp"
-        android:layout_height="65dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/megapurple"
-        android:text="@string/press_here_to_open_qr_code"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
 
 <!--    <TextView-->
 <!--        android:id="@+id/textView3"-->

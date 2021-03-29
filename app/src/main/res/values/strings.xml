@@ -4,8 +4,8 @@
     <string name="frag2_text">Fragment 2</string>
     <string name="title_activity_maps">Map</string>
     <string name="introduction_1">Бронируйте парковочные места на мероприятия</string>
-    <string name="introduction_2">Оплачивайте парковку в один клик</string>
-    <string name="introduction_3">Стройте маршрут прямо внутри приложения</string>
+    <string name="introduction_3">Оплачивайте парковку в один клик</string>
+    <string name="introduction_2">Отслеживайте свободные места в реальном времени</string>
     <string name="next">Далее</string>
     <string name="skip">Пропустить</string>
     <string name="all_clear">Понятно</string>
@@ -34,7 +34,7 @@
     <string name="ready">Готово!</string>
     <string name="successful_payment">Оплата прошла успешно</string>
     <string name="scan_qr_code">Просканируйте QR-код при въезде на парковку</string>
-    <string name="click_to_open_qr_code">Нажмите, чтобы открыть QR-код</string>
+    <string name="click_to_open_qr_code">Открыть QR-код</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

@@ -5,8 +5,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
+import com.example.parkingapp.MainActivity;
 import com.example.parkingapp.R;
 import com.example.parkingapp.SuccessfulPaymentActivity;
 import com.google.gson.Gson;
@@ -96,15 +98,14 @@ public class ClientWebSocketListener extends WebSocketListener {
 
     private void parseByteString(ByteString bytes) {
 //        connection.onQRGet(bytes);
-//        Context context = SuccessfulPaymentActivity.getContext();
-//        Log.i("TAG_QRCODE", "setImageBitmap_start");
-//        ImageView imgView = (ImageView) ((Activity)context).findViewById(R.id.img_qr_code2);
-//        Bitmap bmp = BitmapFactory.decodeByteArray(bytes.toByteArray(), 0, bytes.size());
-//        imgView.setImageBitmap(bmp);
-//        Bitmap bmp = BitmapFactory.decodeByteArray(bytes.toByteArray(), 0, bytes.size());
-//        SuccessfulPaymentActivity.img_qr_code.setImageBitmap(bmp);
-//        Log.i("TAG_QRCODE", "setImageBitmap_end");
-        connection.createExternalStoragePrivatePicture(bytes);
+        Context context = SuccessfulPaymentActivity.getContext();
+        Log.i("TAG_QRCODE", "setImageBitmap_start");
+        ImageView imgView = (ImageView) ((Activity)context).findViewById(R.id.img_qr_code2);
+        Bitmap bmp = BitmapFactory.decodeByteArray(bytes.toByteArray(), Long.BYTES, bytes.size()- Long.BYTES);
+        if (bmp != null) {imgView.setImageBitmap(bmp);}
+        Log.i("TAG_QRCODE", String.valueOf(bmp != null));
+        MainActivity.bitmap = bmp;
+//        connection.createExternalStoragePrivatePicture(bytes);
     }
 
 }
