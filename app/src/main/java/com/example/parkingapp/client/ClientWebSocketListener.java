@@ -1,7 +1,14 @@
 package com.example.parkingapp.client;
 
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.widget.ImageView;
 
+import com.example.parkingapp.R;
+import com.example.parkingapp.SuccessfulPaymentActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.example.parkingapp.objects.MessageGenerator;
@@ -12,6 +19,7 @@ import okhttp3.WebSocketListener;
 import okio.ByteString;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayInputStream;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -87,7 +95,16 @@ public class ClientWebSocketListener extends WebSocketListener {
     }
 
     private void parseByteString(ByteString bytes) {
-        connection.onQRGet(bytes);
+//        connection.onQRGet(bytes);
+//        Context context = SuccessfulPaymentActivity.getContext();
+//        Log.i("TAG_QRCODE", "setImageBitmap_start");
+//        ImageView imgView = (ImageView) ((Activity)context).findViewById(R.id.img_qr_code2);
+//        Bitmap bmp = BitmapFactory.decodeByteArray(bytes.toByteArray(), 0, bytes.size());
+//        imgView.setImageBitmap(bmp);
+//        Bitmap bmp = BitmapFactory.decodeByteArray(bytes.toByteArray(), 0, bytes.size());
+//        SuccessfulPaymentActivity.img_qr_code.setImageBitmap(bmp);
+//        Log.i("TAG_QRCODE", "setImageBitmap_end");
+        connection.createExternalStoragePrivatePicture(bytes);
     }
 
 }

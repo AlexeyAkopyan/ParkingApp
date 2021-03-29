@@ -59,41 +59,56 @@
 
 
 
-<!--    <Toolbar-->
-<!--        android:id="@+id/toolbar_main_activity"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="70dp"-->
-<!--        android:background="@drawable/toolbar_box"-->
-<!--        android:elevation="20dp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
 
-    <!--        <EditText-->
-<!--            android:id="@+id/editTextTextPersonName"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:ems="10"-->
-<!--            android:inputType="textPersonName"-->
-<!--            android:hint="@string/type_address"-->
-<!--            android:textSize="24sp"-->
-<!--            android:paddingLeft="25dp"-->
-<!--            android:background="@null"-->
-<!--            app:layout_constraintEnd_toStartOf="parent"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/btn_menu" />-->
 
-<!--    </Toolbar>-->
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_menu"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:scaleType="center"
-        app:backgroundTint="@color/megapurple"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_menu"/>
+        android:background="@drawable/toolbar_box"
+        android:elevation="20dp">
+
+        <ImageButton
+            android:id="@+id/btn_menu"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/ic_menu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName"
+            android:layout_width="303dp"
+            android:layout_height="43dp"
+            android:background="@drawable/type_address_box"
+            android:ems="10"
+            android:hint="@string/type_address"
+            android:inputType="textPersonName"
+            android:paddingLeft="25dp"
+            android:textColorHint="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/btn_menu"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/btn_menu"-->
+<!--        android:layout_width="56dp"-->
+<!--        android:layout_height="56dp"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:scaleType="center"-->
+<!--        app:backgroundTint="@color/megapurple"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:srcCompat="@drawable/ic_menu"/>-->
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
@@ -120,4 +135,31 @@
             android:layout_height="wrap_content"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="298dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/megapurple"
+        android:text="@string/press_here_to_open_qr_code"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+<!--    <TextView-->
+<!--        android:id="@+id/textView3"-->
+<!--        android:layout_width="264dp"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:layout_marginStart="28dp"-->
+<!--        android:layout_marginBottom="36dp"-->
+<!--        android:backgroundTint="@color/fragment_background_grey"-->
+<!--        android:background="@drawable/time_slot_box"-->
+<!--        android:clickable="true"-->
+<!--        android:gravity="center"-->
+<!--        android:text="@string/type_address"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="30sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

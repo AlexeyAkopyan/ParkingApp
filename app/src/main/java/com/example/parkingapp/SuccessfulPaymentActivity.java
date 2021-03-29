@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Random;
 
 public class SuccessfulPaymentActivity extends AppCompatActivity {
-    ImageView qr_code;
+    public static ImageView img_qr_code;
     TextView txt_ready,
             txt_succ_payment,
             txt_scan_qr_code;
@@ -35,14 +35,14 @@ public class SuccessfulPaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_successful_payment);
         context = this;
 
-        qr_code = findViewById(R.id.img_qr_code2);
+        img_qr_code = findViewById(R.id.img_qr_code2);
         txt_ready = findViewById(R.id.txt_ready);
         txt_succ_payment = findViewById(R.id.txt_succ_payment);
         txt_scan_qr_code = findViewById(R.id.txt_scan_qr_code2);
         btn_ok = findViewById(R.id.btn_ok2);
 
         Intent intent_payment = getIntent();
-        int parkingId = intent_payment.getIntExtra("parkingId", 0);
+        Long parkingId = intent_payment.getLongExtra("parkingId", -1);
         List<Integer> selected_time = intent_payment.getIntegerArrayListExtra("selected_time");
         String carNum = "car" + MainActivity.car_number;
         Calendar start = new GregorianCalendar();
@@ -52,11 +52,12 @@ public class SuccessfulPaymentActivity extends AppCompatActivity {
         finish.set(Calendar.HOUR_OF_DAY, selected_time.get(2));
         finish.set(Calendar.MINUTE, selected_time.get(3));
         Long paymentInfo = Long.valueOf(intent_payment.getIntExtra("paymentId", 0));
-        Order order = new Order((long) parkingId, carNum, start.getTimeInMillis(),
+        Order order = new Order(parkingId, carNum, start.getTimeInMillis(),
                 finish.getTimeInMillis(), paymentInfo);
-        System.out.println(order.getId());
+
         System.out.println(MainActivity.connection);
         MainActivity.connection.sendOrder(order);
+        System.out.println(order.getId());
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
@@ -66,17 +67,18 @@ public class SuccessfulPaymentActivity extends AppCompatActivity {
 
         Bitmap bitmap = null;
         try {
-            bitmap = MainActivity.orderService.getQR();
+            bitmap = MainActivity.orderService.encodeAsBitmap();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(bitmap);
+        Log.i("TAG_BITMAP", String.valueOf(bitmap != null));
         if (bitmap != null){
-            qr_code.setImageBitmap(bitmap);
+            img_qr_code.setImageBitmap(bitmap);
         }
+        System.out.println(MainActivity.orderService.getOrderList());
 
 
-        qr_code.setImageResource(R.drawable.button_light_box);
+//        img_qr_code.setImageResource(R.drawable.button_light_box);
         txt_ready.setVisibility(View.INVISIBLE);
         txt_succ_payment.setVisibility(View.INVISIBLE);
         txt_scan_qr_code.setVisibility(View.VISIBLE);
@@ -89,7 +91,6 @@ public class SuccessfulPaymentActivity extends AppCompatActivity {
                 finish();
             }
         });
-
 
 
 

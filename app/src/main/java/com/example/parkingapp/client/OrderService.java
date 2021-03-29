@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -14,6 +15,7 @@ import com.example.parkingapp.QRCodeEncoder;
 import com.example.parkingapp.SuccessfulPaymentActivity;
 import com.example.parkingapp.objects.Constants;
 import com.example.parkingapp.objects.Order;
+import com.google.android.gms.common.util.IOUtils;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
@@ -104,24 +106,37 @@ public class OrderService {
 //        }
 //        return bytes;
 //
+
+//    public Bitmap getQR() throws Exception {
 //
-//        try {
-//            File f=new File(path, "profile.jpg");
-//            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-//            img.setImageBitmap(b);
+//        Long id = orderList.get(orderList.size() - 1).getId();
+//        if (id < 0) {
+//            throw new Exception("Order is not confirmed");
 //        }
-//        catch (FileNotFoundException e)
-//        {
+////        File dir = new File(Constants.PATH_TO_QR);
+////        File qrFile = new File(dir, "qr" + id + ".svg");
+////        if (!qrFile.exists())
+////            throw new FileNotFoundException("QR code not found: get QR again from server");
+////        return qrFile;
+//
+//        String filename = "qr" + id + ".png";
+//        Context context = SuccessfulPaymentActivity.getContext();
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+////        Bitmap bMap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+//        try {
+//            FileInputStream fis = context.openFileInput(filename);
+//            System.out.println(fis.available());
+////            Bitmap bitmap = BitmapFactory.decodeStream;
+//            Bitmap bitmap = BitmapFactory.decodeFile(fis.getAbsolutePath(), options);
+//            return bitmap;
+//        } catch (FileNotFoundException e) {
 //            e.printStackTrace();
 //        }
-//        Bitmap bitmap = BitmapFactory.decodeFile();
-//        ByteArrayOutputStream blob = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.PNG, 0 /* Ignored for PNGs */, blob);
-//        byte[] bitmapdata = blob.toByteArray();
+//        return null;
 //    }
 
-    public Bitmap getQR() throws Exception {
-
+    public Bitmap encodeAsBitmap() throws Exception {
         Long id = orderList.get(orderList.size() - 1).getId();
         if (id < 0) {
             throw new Exception("Order is not confirmed");
@@ -131,39 +146,42 @@ public class OrderService {
 //        if (!qrFile.exists())
 //            throw new FileNotFoundException("QR code not found: get QR again from server");
 //        return qrFile;
-        if (id < 0) {
-            throw new Exception("Order is not confirmed");
-        }
+
         String filename = "qr" + id + ".png";
         Context context = SuccessfulPaymentActivity.getContext();
-        try {
-            FileInputStream fis = context.openFileInput(filename);
-            System.out.println(fis.available());
-            Bitmap bitmap = BitmapFactory.decodeStream(fis);
-            return bitmap;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
-    public Bitmap encodeAsBitmap() throws WriterException {
-        Map<EncodeHintType, Object> hints = null;
-        MultiFormatWriter writer = new MultiFormatWriter();
-        BitMatrix result = writer.encode("TEXT_TYPE", BarcodeFormat.valueOf(BarcodeFormat.QR_CODE.toString()), 230, 230);
-        int width = result.getWidth();
-        int height = result.getHeight();
-        int[] pixels = new int[width * height];
-        // All are 0, or black, by default
-        for (int y = 0; y < height; y++) {
-            int offset = y * width;
-            for (int x = 0; x < width; x++) {
-                pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
-            }
-        }
+//        File path = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        File file = new File(filename);
+//        FileInputStream file = context.openFileInput(filename);
+//        FileInputStream fis = new FileInputStream(filename);
+//        Bitmap bitmap = BitmapFactory.decodeFile(file.getFD() + filename);
+//        return bitmap;
 
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+
+        File file = new File("/storage/emulated/0/Android/data/com.example.parkingapp/files/Pictures/" + filename); //or any other format supported
+        FileInputStream streamIn = new FileInputStream(file);
+        Bitmap bitmap = BitmapFactory.decodeStream(streamIn); //This gets the image
+        streamIn.close();
         return bitmap;
+
+//        Bitmap bitmap = BitmapFactory.decodeStream(file);
+
+//        Map<EncodeHintType, Object> hints = null;
+//        MultiFormatWriter writer = new MultiFormatWriter();
+//        BitMatrix result = writer.encode("TEXT_TYPE", BarcodeFormat.valueOf(BarcodeFormat.QR_CODE.toString()), 230, 230);
+//        int width = result.getWidth();
+//        int height = result.getHeight();
+//        int[] pixels = new int[width * height];
+//        // All are 0, or black, by default
+//        for (int y = 0; y < height; y++) {
+//            int offset = y * width;
+//            for (int x = 0; x < width; x++) {
+//                pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
+//            }
+//        }
+//
+//        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+//        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+//        return bitmap;
     }
 }

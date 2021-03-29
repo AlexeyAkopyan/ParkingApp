@@ -9,6 +9,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -61,7 +62,11 @@ abstract public class BaseCardActivity extends Activity implements
 //        spinnerCcy = findViewById(R.id.spinner_ccy);
         editEmail = findViewById(R.id.edit_email);
         editDescription = findViewById(R.id.edit_description);
-        findViewById(R.id.btn_pay_card).setVisibility(View.VISIBLE);
+        Button btn_pay_card = findViewById(R.id.btn_pay_card);
+        btn_pay_card.setVisibility(View.VISIBLE);
+        btn_pay_card.setBackground(getDrawable(R.drawable.rounded_rectangle));
+//        btn_pay_card.setBackgroundColor(getColor(R.color.megapurple));
+
         findViewById(R.id.btn_pay_card).setOnClickListener(this);
         findViewById(R.id.btn_pay_google).setOnClickListener(this);
 
@@ -131,20 +136,20 @@ abstract public class BaseCardActivity extends Activity implements
             final Card card = getCard();
             System.out.println(card);
 
-//            Intent intent_succ_payment = new Intent(this, SuccessfulPaymentActivity.class);
-//            intent_succ_payment.putExtra("paymentId", "01234"); //receipt.paymentId);
-//            Bundle bundle = getIntent().getExtras();
-//            if (bundle != null) {
-//                intent_succ_payment.putExtras(bundle);
-//            }
-//            startActivity(intent_succ_payment);
-//            finish();
-
-            if (card != null) {
-//                findViewById(R.id.btn_pay_card).setVisibility(View.INVISIBLE);
-                cloudipsp.pay(card, order, this);
-                Log.i("TAG_PAYMENT", "Order is created");
+            Intent intent_succ_payment = new Intent(this, SuccessfulPaymentActivity.class);
+            intent_succ_payment.putExtra("paymentId", "01234"); //receipt.paymentId);
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                intent_succ_payment.putExtras(bundle);
             }
+            startActivity(intent_succ_payment);
+            finish();
+
+//            if (card != null) {
+////                findViewById(R.id.btn_pay_card).setVisibility(View.INVISIBLE);
+//                cloudipsp.pay(card, order, this);
+//                Log.i("TAG_PAYMENT", "Order is created");
+//            }
         }
     }
 
