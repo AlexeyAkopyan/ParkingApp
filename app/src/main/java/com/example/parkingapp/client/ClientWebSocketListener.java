@@ -98,14 +98,14 @@ public class ClientWebSocketListener extends WebSocketListener {
 
     private void parseByteString(ByteString bytes) {
 //        connection.onQRGet(bytes);
-        Context context = SuccessfulPaymentActivity.getContext();
-        Log.i("TAG_QRCODE", "setImageBitmap_start");
-        ImageView imgView = (ImageView) ((Activity)context).findViewById(R.id.img_qr_code2);
-        Bitmap bmp = BitmapFactory.decodeByteArray(bytes.toByteArray(), Long.BYTES, bytes.size()- Long.BYTES);
-        if (bmp != null) {imgView.setImageBitmap(bmp);}
-        Log.i("TAG_QRCODE", String.valueOf(bmp != null));
-        MainActivity.bitmap = bmp;
-//        connection.createExternalStoragePrivatePicture(bytes);
+//        Context context = SuccessfulPaymentActivity.getContext();
+//        Log.i("TAG_QRCODE", "setImageBitmap_start");
+//        ImageView imgView = (ImageView) ((Activity)context).findViewById(R.id.img_qr_code2);
+//        Bitmap bmp = BitmapFactory.decodeByteArray(bytes.toByteArray(), Long.BYTES, bytes.size()- Long.BYTES);
+//        if (bmp != null) {imgView.setImageBitmap(bmp);}
+//        Log.i("TAG_QRCODE", String.valueOf(bmp != null));
+//        MainActivity.bitmap = bmp;
+        connection.createExternalStoragePrivatePicture(bytes);
     }
 
 }

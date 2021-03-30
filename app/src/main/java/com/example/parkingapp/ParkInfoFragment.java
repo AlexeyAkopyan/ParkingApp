@@ -161,8 +161,7 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
         Log.i("TAG_WRK_HOURS", selected_place.getWorkingHours().toString());
     }
 
-    public void checkIsTimeValid(){
-
+    public boolean checkIsTimeValid(){
         List<Integer> working_hours = selected_place.getWorkingHours();
         selected_time = new ArrayList<Integer>();
 
@@ -202,8 +201,8 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
         )
         {
             Log.i("TAG_check_valid", "valid");
-            btn_go_on.setClickable(true);
-            btn_go_on.setBackgroundColor(getResources().getColor(color.megapurple));
+//            btn_go_on.setClickable(true);
+//            btn_go_on.setBackgroundColor(getResources().getColor(color.megapurple));
             Log.i("TAG_check_valid", String.valueOf(btn_go_on.isClickable()));
 
 
@@ -212,17 +211,23 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
             int finalRadius = (int) Math.hypot(txt_amount.getWidth() * 2, txt_amount.getHeight());
             Animator anim_amount = ViewAnimationUtils.createCircularReveal(txt_amount, cx, cy, 0, finalRadius);
             anim_amount.setDuration(1000);
-            txt_amount.setText("470₽");
-            txt_amount.setVisibility(View.VISIBLE);
+            String new_amount = (selected_time.get(2) - selected_time.get(0)) * 60 + 250 + "₽";
+
+            txt_amount.setText(new_amount);
+//            txt_amount.setVisibility(View.VISIBLE);
             anim_amount.start();
+
+
             MainActivity.selected_time = selected_time;
+            return true;
         }
         else
         {
             Log.i("TAG_check_valid", "invalid");
-            btn_go_on.setClickable(false);
-            btn_go_on.setBackgroundColor(getResources().getColor(color.button_unable));
+//            btn_go_on.setClickable(false);
+//            btn_go_on.setBackgroundColor(getResources().getColor(color.button_unable));
             Log.i("TAG_check_valid", String.valueOf(btn_go_on.isClickable()));
+            return false;
         }
     }
 
@@ -279,12 +284,52 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == id.btn_go_on) {
-            Log.i("TAG", selected_place.getAddress());
-            Log.i("TAG_check_selected_time", TimeFormat(selected_time.get(0)) +
-                    ":" + TimeFormat(selected_time.get(1)) + "   по " + TimeFormat(selected_time.get(2)) +
-                    ":" + TimeFormat(selected_time.get(3)));
-            ST.sendData(selected_time, txt_amount.getText().toString());
+        if (v.getId() == id.btn_go_on){
+            if (checkIsTimeValid()) {
+                txt_amount.setVisibility(View.INVISIBLE);
+                Log.i("TAG", selected_place.getAddress());
+                Log.i("TAG_check_selected_time", TimeFormat(selected_time.get(0)) +
+                        ":" + TimeFormat(selected_time.get(1)) + "   по " + TimeFormat(selected_time.get(2)) +
+                        ":" + TimeFormat(selected_time.get(3)));
+                ST.sendData(selected_time, txt_amount.getText().toString());
+                OnSelectedButtonListener listener = (OnSelectedButtonListener) getActivity();
+                listener.onButtonSelected(v.getId());
+            }
+//                try {txt_time_from_hours.getText();}
+//                catch (Exception e) {
+//                    txt_time_from_hours.setError("Введите время");
+//                }
+//
+//                try {txt_time_from_minutes.getText();}
+//                catch (Exception e) {
+//                    txt_time_from_minutes.setError("Введите время");
+//                }
+//
+//                try {txt_time_to_hours.getText();}
+//                catch (Exception e) {
+//                    txt_time_to_hours.setError("Введите время");
+//                }
+//
+//                try {txt_time_to_minutes.getText();}
+//                catch (Exception e) {
+//                    txt_time_to_minutes.setError("Введите время");
+//                }
+//
+//                List<Integer> working_hours = selected_place.getWorkingHours();
+//                if (selected_time.get(0) > working_hours.get(0) ||
+//                        (selected_time.get(0) == working_hours.get(0) &&
+//                                selected_time.get(1) >= working_hours.get(1)))
+//                {
+//                    txt_time_from_hours.setError("Неправильное время");
+//                    txt_time_from_minutes.setError("Неправильное время");
+//                }
+//                if (selected_time.get(2) < working_hours.get(2) ||
+//                        (selected_time.get(2) == working_hours.get(2) &&
+//                                selected_time.get(3)<= working_hours.get(3)))
+//                {
+//                    txt_time_to_hours.setError("Неправильное время");
+//                    txt_time_to_minutes.setError("Неправильное время");
+//                }
         }
         if (v.getId() == id.txt_time_slot){
             List<Integer> valid_time = new ArrayList<>(selected_place.getWorkingHours());
@@ -293,10 +338,12 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
             txt_time_to_hours.setText(TimeFormat(valid_time.get(2)));
             txt_time_to_minutes.setText(TimeFormat(valid_time.get(3)));
             selected_time = valid_time;
-
+            OnSelectedButtonListener listener = (OnSelectedButtonListener) getActivity();
+            listener.onButtonSelected(v.getId());
         }
-        OnSelectedButtonListener listener = (OnSelectedButtonListener) getActivity();
-        listener.onButtonSelected(v.getId());
+
+//        OnSelectedButtonListener listener = (OnSelectedButtonListener) getActivity();
+//        listener.onButtonSelected(v.getId());
 //        if (v.getId() == id.btn_pay_type){
 //            RippleDrawable btnColor = (RippleDrawable) btn_go_on.getBackground();
 //            if (btnColor.getColor() == getResources().getColor(R.color.button_unable)){

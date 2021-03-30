@@ -44,13 +44,14 @@ public class QRcodeActivity extends AppCompatActivity {
                 ":" + TimeFormat(59));
         Bitmap bitmap = null;
         try {
-            bitmap = MainActivity.bitmap;
+            bitmap = MainActivity.orderService.encodeAsBitmap();
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (bitmap != null){
             qr_code.setImageBitmap(bitmap);
         }
+
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

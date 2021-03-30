@@ -153,7 +153,18 @@ public class OrderService {
 //    }
 
     public Bitmap encodeAsBitmap() throws Exception {
-        Long id = orderList.get(orderList.size() - 1).getId();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Long id = (long) -1;
+        System.out.println("Order 3");
+        System.out.println(orderList);
+        if (orderList.size() > 0) {
+            id = orderList.get(orderList.size() - 1).getId();
+        }
+        Log.i("TAG_ID", String.valueOf(id));
         if (id < 0) {
             throw new Exception("Order is not confirmed");
         }
@@ -190,7 +201,9 @@ public class OrderService {
             e.printStackTrace();
         }
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        Bitmap bitmap1 = BitmapFactory.decodeByteArray(bytes, Long.BYTES, bytes.length - Long.BYTES);
+        Log.i("TAG_BITMAP2", String.valueOf(bitmap != null));
+//        Bitmap bitmap1 = BitmapFactory.decodeByteArray(bytes, Long.BYTES, bytes.length - Long.BYTES);
+//        Log.i("TAG_BITMAP3", String.valueOf(bitmap1 != null));
         return bitmap;
 //        Bitmap bitmap = BitmapFactory.decodeStream(file);
 

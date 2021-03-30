@@ -128,7 +128,11 @@ public class WebSocketConnection {
         Long oldId = Long.parseLong(message.substring(0, split));
         Long newId = Long.parseLong(message.substring(split + 1));
         String getQR = MessageGenerator.GET_QR + newId;
+        System.out.println("Order 1");
+        System.out.println(orderService.getOrderList());
         this.orderService.updateOrderId(oldId, newId);
+        System.out.println("Order 2");
+        System.out.println(orderService.getOrderList());
         this.send(getQR);
         System.out.println("send qr request: " + getQR);
     }
@@ -267,7 +271,7 @@ public class WebSocketConnection {
             // not currently mounted this will silently fail.
             OutputStream os = new FileOutputStream(file);
 
-            os.write(bytes.toByteArray(), 0, bytes.size());//, Long.BYTES, bytes.size() - Long.BYTES);
+            os.write(bytes.toByteArray(), Long.BYTES, bytes.size() - Long.BYTES);
             os.close();
 
             // Tell the media scanner about the new file so that it is

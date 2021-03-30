@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity
     public static List<Integer> selected_time;
     private BottomSheetBehavior bottomSheetBehavior;
     public static ParkingPlace selected_place = null;
-    private List<Parking> parkingList = null;
+    private List<Parking> parkingList;
     public static WebSocketConnection connection;
     public static OrderService orderService;
     public static ParkingService parkingService;
@@ -107,19 +107,21 @@ public class MainActivity extends AppCompatActivity
         orderService = new OrderService();
         connection = new WebSocketConnection(Constants.LOCALHOST_URL_ANDROID, parkingService, orderService);
         connection.init();
+
         while (parkingService.getParkingList().size() < 1) {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        List<Parking> parkingList = parkingService.getParkingList();
-        System.out.println(parkingList);
+        parkingList = parkingService.getParkingList();
+
 
 
         Log.i("TAG_CREATE", "MainActivity Created");
-        parking_book = getParkingBook();
+        parking_book = getParkingBook(parkingList);
+        System.out.println(parking_book);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -190,30 +192,28 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
 
-    List<ParkingPlace> getParkingBook() {
+    List<ParkingPlace> getParkingBook(List<Parking> parkingList) {
         List<ParkingPlace> parking_book = new ArrayList<ParkingPlace>();
-        parking_book.add(new ParkingPlace(
-                59.930413, 30.361137,
-                "пр. Пятилеток, 1, лит. А", Arrays.asList(15, 0, 23, 59),
-                7));
-        parking_book.add(new ParkingPlace(59.933686, 30.313075,
-                "наб. р. Мойки, 75-79", Arrays.asList(12, 0, 22, 00),
-                20));
-        parking_book.add(new ParkingPlace(59.930086, 30.344658,
-                "ул. Рубинштейна, 11", Arrays.asList(17, 30, 23, 59),
-                12));
-        parking_book.add(new ParkingPlace(59.927321, 30.385752,
-                "пл. Восстания", Arrays.asList(0, 0, 23, 59),
-                1));
-        parking_book.add(new ParkingPlace(59.927321, 30.385752,
-                "пл. Восстания", Arrays.asList(0, 0, 23, 59),
-                1));
+//        parking_book.add(new ParkingPlace(
+//                59.930413, 30.361137,
+//                "пр. Пятилеток, 1, лит. А", Arrays.asList(15, 0, 23, 59),
+//                7));
+//        parking_book.add(new ParkingPlace(59.933686, 30.313075,
+//                "наб. р. Мойки, 75-79", Arrays.asList(12, 0, 22, 00),
+//                20));
+//        parking_book.add(new ParkingPlace(59.930086, 30.344658,
+//                "ул. Рубинштейна, 11", Arrays.asList(17, 30, 23, 59),
+//                12));
+//        parking_book.add(new ParkingPlace(59.927321, 30.385752,
+//                "пл. Восстания", Arrays.asList(0, 0, 23, 59),
+//                1));
+//        parking_book.add(new ParkingPlace(59.927321, 30.385752,
+//                "пл. Восстания", Arrays.asList(0, 0, 23, 59),
+//                1));
 
-
-//        List<Parking> parkingList = connection.getParkingList();
-//        for (Integer i = 0; i < parking_book.size(); i++){
-//            parking_book.add(new ParkingPlace(parkingList.get(i));
-//        }
+        for (Integer i = 0; i < parkingList.size(); i++){
+            parking_book.add(new ParkingPlace(parkingList.get(i)));
+        }
         return parking_book;
     }
 
@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity
                 Log.i("TAG_main_selected_time", TimeFormat(selected_time.get(0)) +
                         ":" + TimeFormat(selected_time.get(1)) + "   по " + TimeFormat(selected_time.get(2)) +
                         ":" + TimeFormat(selected_time.get(3)));
-                intent_go_on.putExtra("parkingId", 0); //selected_place.getId()
+                intent_go_on.putExtra("parkingId", selected_place.getId());
                 intent_go_on.putExtra("amount", amount);
                 intent_go_on.putIntegerArrayListExtra("selected_time", (ArrayList<Integer>) selected_time);
                 Log.i("TAG_main", "put_address");
@@ -392,7 +392,11 @@ public class MainActivity extends AppCompatActivity
         park_info_frag.setSelectedPayType(id);
     }
 
+
+
 }
+
+
 
 
 
