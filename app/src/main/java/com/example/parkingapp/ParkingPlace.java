@@ -12,19 +12,6 @@ public class ParkingPlace {
     private  String address;
     private  List<Integer> working_hours;
     private  Integer number_free_places;
-    private static List<String> addresses = new ArrayList<String>(){
-        {
-            add("пр. Пятилеток, 1, лит. А");
-            add("наб. р. Мойки, 77");
-            add("ул. Рубинштейна, 11");
-            add("пл. Восстания");
-            add("Клубный пер., 15 корпус 2");
-            add("ул. Профессора Попова, 42");
-            add("Кирочная ул., 65");
-            add("Малодетскосельский пр., 25/12");
-            add("Литовская ул., 1");
-            add("Дегтярный пер., 11Б");
-        }};
 
 
     public ParkingPlace(double lat, double lng, String address,
@@ -41,7 +28,7 @@ public class ParkingPlace {
     public ParkingPlace(Parking parking){
         this.id = parking.getId();
         this.loc = new LatLng(parking.getCoordinates().getLatitude(), parking.getCoordinates().getLongitude());
-        this.address = addresses.get(id.intValue());
+        this.address = parking.getAddress();
         this.working_hours = parking.getWorkingHours();
         this.number_free_places = parking.getAvailable();
     }

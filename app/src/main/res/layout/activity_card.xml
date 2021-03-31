@@ -14,18 +14,6 @@
         android:scaleType="fitXY"
         android:src="@drawable/canvas"/>
 
-    <!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="7dp"-->
-<!--                android:text="@string/lbl_ccy" />-->
-
-<!--            <Spinner-->
-<!--                android:id="@+id/spinner_ccy"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="7dp" />-->
-
     <TextView
         android:id="@+id/btn_amount"
         android:layout_width="83dp"

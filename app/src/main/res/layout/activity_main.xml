@@ -1,41 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<!--<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout1"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="bottom"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/MapLayout">
-        <fragment
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/frgmCont"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-    </FrameLayout>
-
-
-</LinearLayout>-->
-
-
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -108,19 +73,6 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/btn_menu"-->
-<!--        android:layout_width="56dp"-->
-<!--        android:layout_height="56dp"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:scaleType="center"-->
-<!--        app:backgroundTint="@color/megapurple"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:srcCompat="@drawable/ic_menu"/>-->
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
@@ -148,20 +100,4 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-
-<!--    <TextView-->
-<!--        android:id="@+id/textView3"-->
-<!--        android:layout_width="264dp"-->
-<!--        android:layout_height="60dp"-->
-<!--        android:layout_marginStart="28dp"-->
-<!--        android:layout_marginBottom="36dp"-->
-<!--        android:backgroundTint="@color/fragment_background_grey"-->
-<!--        android:background="@drawable/time_slot_box"-->
-<!--        android:clickable="true"-->
-<!--        android:gravity="center"-->
-<!--        android:text="@string/type_address"-->
-<!--        android:textColor="@color/black"-->
-<!--        android:textSize="30sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

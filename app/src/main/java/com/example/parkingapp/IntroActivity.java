@@ -92,19 +92,6 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-//        if (v.getId() == R.id.btn_skip
-//                || (v.getId() == R.id.btn_next && screenPager.getCurrentItem() == mList.size() - 1)){
-//            loadNextActivity(true);
-//        }
-//        else{
-//            if (v.getId() == R.id.btn_next) {
-//                position = screenPager.getCurrentItem();
-//                if (position < mList.size()) {
-//                    position++;
-//                    screenPager.setCurrentItem(position);
-//                }
-//            }
-//        }
         if (v.getId()== R.id.btn_skip || v.getId() == R.id.btn_all_clear) {
             loadNextActivity(true);
         }
@@ -112,31 +99,6 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
                 screenPager.setCurrentItem(screenPager.getCurrentItem() + 1);
         }
     }
-
-//        switch (v.getId()) {
-//            case R.id.btn_next:
-//                position = screenPager.getCurrentItem();
-//                if (position < mList.size()) {
-//                    position++;
-//                    screenPager.setCurrentItem(position);
-//                }
-//                if (position == mList.size() - 1) {
-//                    btn_skip.setVisibility(View.INVISIBLE);
-//
-//                }
-//                if (position == mList.size()) {
-//                    Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity.class);
-//                    startActivity(intent_car_number);
-//                    savePrefsData();
-//                    finish();
-//                }
-//                break;
-//            case R.id.btn_skip:
-//                screenPager.setCurrentItem(screenPager.getCurrentItem() + 1);
-//                screenPager.setCurrentItem(screenPager.getCurrentItem() + 1);
-//                loadNextActivity(true);
-//        }
-//    }
 
     private void loadNextActivity(boolean savePrefData){
         Intent intent_car_number = new Intent(getApplicationContext(), CarNumberActivity.class);
@@ -146,19 +108,12 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void loadPage(boolean last){
-//                    btn_next.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-//                    btn_next.setText(getString(R.string.all_clear));
-//                    btn_skip.setVisibility(View.INVISIBLE);
         if (last) {
-//            Animation anim_disappear = AnimationUtils.loadAnimation(this, R.anim.button_skip);
             Animation anim_appear = AnimationUtils.loadAnimation(this, R.anim.button_all_clear);
             tab_indicator.setVisibility(View.INVISIBLE);
             btn_skip.setVisibility(View.INVISIBLE);
             btn_next.setVisibility(View.INVISIBLE);
             btn_all_clear.setVisibility(View.VISIBLE);
-
-//            btn_skip.startAnimation(anim_disappear);
-//            btn_next.startAnimation(anim_disappear);
             btn_all_clear.startAnimation(anim_appear);
         }
         else {

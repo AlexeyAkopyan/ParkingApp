@@ -45,11 +45,6 @@ public class SuccessfulPaymentActivity extends AppCompatActivity {
         txt_succ_payment = findViewById(R.id.txt_succ_payment);
         txt_scan_qr_code = findViewById(R.id.txt_scan_qr_code2);
         btn_ok = findViewById(R.id.btn_ok2);
-//        try {
-//            Thread.sleep(10000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
 
         Intent intent_payment = getIntent();
         Long parkingId = intent_payment.getLongExtra("parkingId", 0);
@@ -71,17 +66,6 @@ public class SuccessfulPaymentActivity extends AppCompatActivity {
         System.out.println(order.getId());
 
         MainActivity.connection.sendOrder(order);
-//        Bitmap bitmap = null;
-//        try {
-//            bitmap = MainActivity.orderService.encodeAsBitmap();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        if (bitmap != null) {
-//            img_qr_code.setImageBitmap(bitmap);
-//        }
-//        Log.i("TAG_BITMAP1", String.valueOf(bitmap != null));
-//        System.out.println(bitmap);
 
         timer.schedule(new TimerTask() {
                            @Override
@@ -93,40 +77,7 @@ public class SuccessfulPaymentActivity extends AppCompatActivity {
                 }, 300);
         }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-//        img_qr_code.setImageResource(R.drawable.button_light_box);
-//        txt_ready.setVisibility(View.INVISIBLE);
-//        txt_succ_payment.setVisibility(View.INVISIBLE);
-//        txt_scan_qr_code.setVisibility(View.VISIBLE);
-//        btn_ok.setVisibility(View.VISIBLE);
-//        btn_ok.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                Intent intent_main = new Intent(SuccessfulPaymentActivity.this, MainActivity.class);
-////                startActivity(intent_main);
-////                finish();
-//            }
-//        });
-    }
-
     public static SuccessfulPaymentActivity getContext() {
         return context;
     }
 }
-
-
-
-//    private void sendOrder(String carNum, Integer parkingId, Date start, Date finish, String paymentInfo) {
-//
-//        int parkingId = random.nextInt(connection.getParkingList().size());
-//        String carNum = "car" + random.nextInt(100);
-//        Date start = new Date(new Date().getTime() + random.nextInt(3600 * 1000 * 8) + 3600 * 1000);
-//        Date finish = new Date(start.getTime() + 3600 * 1000);
-//        String paymentInfo = "here comes some payment information " + random.nextInt(100);
-//        Order order = new Order(null, (long) parkingId, carNum, start.getTime(),
-//                finish.getTime(), paymentInfo);
-//        connection.sendOrder(order);
-//    }

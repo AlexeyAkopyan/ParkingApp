@@ -4,9 +4,6 @@ import android.animation.Animator;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,24 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
-
-import androidx.annotation.DrawableRes;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.parkingapp.R.*;
@@ -83,7 +70,7 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(layout.fragment1, container, false);
+        View rootView = inflater.inflate(layout.fragment_park_info, container, false);
         txt_street = rootView.findViewById(id.txt_street);
         txt_amount = rootView.findViewById(id.txt_amount);
         txt_time_from_hours = rootView.findViewById(id.edit_txt_time_from_hours);
@@ -98,7 +85,6 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
             public void afterTextChanged(Editable s) {
                 Log.i("TAG_after_change", "start");
                 checkIsTimeValid();
-//                txt_amount.setText("360₽");
             }
 
             public void beforeTextChanged(CharSequence s, int start,
@@ -109,8 +95,6 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
                                       int before, int count) {
             }
         };
-
-//        setValidTime();
 
         txt_time_from_hours.addTextChangedListener(txt_watcher);
         txt_time_from_minutes.addTextChangedListener(txt_watcher);
@@ -123,11 +107,6 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
         txt_time_slot.setOnClickListener(this);
 
         setSelectedPayType(restorePrefData());
-
-//        checkIsTimeValid();
-
-//        txt_street.setText(selected_place.getAddress());
-//        txt_n_free_park_spaces.setText(String.valueOf(selected_place.getNumberFreePlaces()));
         return rootView;
 
     }
@@ -201,8 +180,6 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
         )
         {
             Log.i("TAG_check_valid", "valid");
-//            btn_go_on.setClickable(true);
-//            btn_go_on.setBackgroundColor(getResources().getColor(color.megapurple));
             Log.i("TAG_check_valid", String.valueOf(btn_go_on.isClickable()));
 
 
@@ -214,7 +191,6 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
             String new_amount = (selected_time.get(2) - selected_time.get(0)) * 60 + 250 + "₽";
 
             txt_amount.setText(new_amount);
-//            txt_amount.setVisibility(View.VISIBLE);
             anim_amount.start();
 
 
@@ -224,46 +200,14 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
         else
         {
             Log.i("TAG_check_valid", "invalid");
-//            btn_go_on.setClickable(false);
-//            btn_go_on.setBackgroundColor(getResources().getColor(color.button_unable));
             Log.i("TAG_check_valid", String.valueOf(btn_go_on.isClickable()));
             return false;
         }
     }
 
-//    public interface OnDataPass {
-//        public void onDataPass(String from_hours,
-//                               String from_minutes,
-//                               String to_hours,
-//                               String to_minutes);
-//    }
-//
-//    OnDataPass dataPasser;
-//
-//
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        dataPasser = (OnDataPass) (String.valueOf(txt_time_from_hours.getText()),
-//                String.valueOf(txt_time_from_minutes.getText()),
-//                String.valueOf(txt_time_to_hours.getText()),
-//                String.valueOf(txt_time_to_minutes.getText()))
-//    }
-//
-//
-//
-//    public void passData(String from_hours,
-//                         String from_minutes,
-//                         String to_hours,
-//                         String to_minutes) {
-//        dataPasser.onDataPass(from_hours, from_minutes, to_hours, to_minutes);
-//    }
-
-
 
     public void setSelectedPlace(ParkingPlace place) {
         selected_place = place;
-//        setValidTime();
         txt_street.setText(selected_place.getAddress());
         List<Integer> time_slot = new ArrayList<>(selected_place.getWorkingHours());
         txt_time_slot.setText(TimeFormat(time_slot.get(0)) + ":" +
@@ -273,14 +217,6 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
         Log.i("TAG_start", selected_place.getAddress());
     }
 
-//    public void changeSelectedPlace(ParkingPlace place) {
-//        selected_place = place;
-//        setValidTime();
-//        txt_street.setText(selected_place.getAddress());
-//        txt_n_free_park_spaces.setText(String.valueOf(selected_place.getNumberFreePlaces()));
-//        Log.i("TAG_start", selected_place.getAddress());
-//
-//    }
 
     @Override
     public void onClick(View v) {
@@ -295,41 +231,7 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
                 OnSelectedButtonListener listener = (OnSelectedButtonListener) getActivity();
                 listener.onButtonSelected(v.getId());
             }
-//                try {txt_time_from_hours.getText();}
-//                catch (Exception e) {
-//                    txt_time_from_hours.setError("Введите время");
-//                }
-//
-//                try {txt_time_from_minutes.getText();}
-//                catch (Exception e) {
-//                    txt_time_from_minutes.setError("Введите время");
-//                }
-//
-//                try {txt_time_to_hours.getText();}
-//                catch (Exception e) {
-//                    txt_time_to_hours.setError("Введите время");
-//                }
-//
-//                try {txt_time_to_minutes.getText();}
-//                catch (Exception e) {
-//                    txt_time_to_minutes.setError("Введите время");
-//                }
-//
-//                List<Integer> working_hours = selected_place.getWorkingHours();
-//                if (selected_time.get(0) > working_hours.get(0) ||
-//                        (selected_time.get(0) == working_hours.get(0) &&
-//                                selected_time.get(1) >= working_hours.get(1)))
-//                {
-//                    txt_time_from_hours.setError("Неправильное время");
-//                    txt_time_from_minutes.setError("Неправильное время");
-//                }
-//                if (selected_time.get(2) < working_hours.get(2) ||
-//                        (selected_time.get(2) == working_hours.get(2) &&
-//                                selected_time.get(3)<= working_hours.get(3)))
-//                {
-//                    txt_time_to_hours.setError("Неправильное время");
-//                    txt_time_to_minutes.setError("Неправильное время");
-//                }
+
         }
         if (v.getId() == id.txt_time_slot){
             List<Integer> valid_time = new ArrayList<>(selected_place.getWorkingHours());
@@ -341,16 +243,10 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
             OnSelectedButtonListener listener = (OnSelectedButtonListener) getActivity();
             listener.onButtonSelected(v.getId());
         }
-
-//        OnSelectedButtonListener listener = (OnSelectedButtonListener) getActivity();
-//        listener.onButtonSelected(v.getId());
-//        if (v.getId() == id.btn_pay_type){
-//            RippleDrawable btnColor = (RippleDrawable) btn_go_on.getBackground();
-//            if (btnColor.getColor() == getResources().getColor(R.color.button_unable)){
-//                OnSelectedButtonListener listener = (OnSelectedButtonListener) getActivity();
-//                listener.onButtonSelected(v.getId());
-//            }
-//        }
+        if (v.getId() == id.btn_pay_type ||v.getId() == id.btn_scroll_down){
+            OnSelectedButtonListener listener = (OnSelectedButtonListener) getActivity();
+            listener.onButtonSelected(v.getId());
+        }
 
     }
 
@@ -360,12 +256,6 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
             btn_go_on.setBackgroundColor(getResources().getColor(R.color.megapurple));
             btn_pay_type.setBackgroundResource(0);
         }
-//        if (id == R.id.txt_master_card){
-//            btn_pay_type.setImageResource(drawable.ic_mc_card);
-//            btn_go_on.setBackgroundColor(getResources().getColor(color.megapurple));
-//            btn_pay_type.setBackgroundResource(drawable.card_box);
-
-//        }
         if (id == R.id.txt_new_card){
             btn_pay_type.setImageResource(drawable.ic_card);
             btn_go_on.setBackgroundColor(getResources().getColor(color.megapurple));
@@ -375,69 +265,9 @@ public class ParkInfoFragment extends Fragment implements View.OnClickListener {
 
     private Integer restorePrefData() {
         SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("PaymentTypePref", MODE_PRIVATE);
-        Integer lastSelectedPayType = pref.getInt("lastSelectedPayType", id.txt_new_card);
+        Integer lastSelectedPayType = pref.getInt("lastSelectedPayType", id.txt_google_pay);
         return lastSelectedPayType;
     }
 
-//
-//    public TextView createTimeSlot(List<Integer> time_slot){
-//        LinearLayout timeItem =  new LinearLayout(layout.item_time_slot);
-//        timeItem.setText(TimeFormat(time_slot.get(0)) + ":" +
-//                TimeFormat(time_slot.get(1)) + " - " +
-//                TimeFormat(time_slot.get(2))  + ":" +
-//                TimeFormat(time_slot.get(3)));
-//        timeItem.setLayoutParams(new LinearLayout.LayoutParams(200, 56));
-//        timeItem.setTextColor(getResources().getColor(color.black));
-//
-//        timeItem.setBackground(getResources().getDrawable(R.drawable.time_slot_box));
-//    }
-
-
-    }
-
-
-//public class FragmentOne extends Fragment {
-//
-//    SendMessage SM;
-//
-//    @Nullable
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        View rootView = inflater.inflate(
-//                R.layout.fragment_one, container, false);
-//        return rootView;
-//
-//
-//    }
-//
-//    @Override
-//    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//
-//        Button btnPassData = (Button) view.findViewById(R.id.btnPassData);
-//        final EditText inData = (EditText) view.findViewById(R.id.inMessage);
-//        btnPassData.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                SM.sendData(inData.getText().toString().trim());
-//            }
-//        });
-//
-//    }
-//
-//    interface SendMessage {
-//        void sendData(String message);
-//    }
-//
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//
-//        try {
-//            SM = (SendMessage) getActivity();
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException("Error in retrieving data. Please try again");
-//        }
-//    }
-//}
+}
 

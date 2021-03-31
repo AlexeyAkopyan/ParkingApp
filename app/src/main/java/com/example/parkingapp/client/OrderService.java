@@ -1,45 +1,22 @@
 package com.example.parkingapp.client;
 
-import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.os.Environment;
-import android.os.FileUtils;
 import android.util.Log;
-import android.view.Display;
-import android.view.WindowManager;
-import android.widget.ImageView;
 
-import com.example.parkingapp.QRCodeEncoder;
 import com.example.parkingapp.SuccessfulPaymentActivity;
 import com.example.parkingapp.objects.Constants;
 import com.example.parkingapp.objects.Order;
-import com.google.android.gms.common.util.IOUtils;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
-
-import static android.content.Context.WINDOW_SERVICE;
-import static android.graphics.Color.BLACK;
-import static android.graphics.Color.WHITE;
 
 public class OrderService {
     List<Order> orderList;

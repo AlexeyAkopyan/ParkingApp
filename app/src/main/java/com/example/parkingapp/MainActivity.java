@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
     public static List<ParkingPlace> parking_book;
     public static List<Integer> selected_time;
     private BottomSheetBehavior bottomSheetBehavior;
-    public static ParkingPlace selected_place = null;
+    public static ParkingPlace selected_place;
     private List<Parking> parkingList;
     public static WebSocketConnection connection;
     public static OrderService orderService;
@@ -126,13 +126,6 @@ public class MainActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-//        park_info_frag = new ParkInfoFragment();
-//        fragmentManager = getFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .add(R.id.frgmCont, park_info_frag)
-//                .addToBackStack("name")
-//                .commit();
-
         btn_show_qr_code = findViewById(R.id.btn_show_qr_code);
         btn_show_qr_code.setOnClickListener(this);
 
@@ -146,7 +139,6 @@ public class MainActivity extends AppCompatActivity
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(View view, int i) {
-                // do something when state changes
                 if (i == BottomSheetBehavior.STATE_HIDDEN && !hidden) {
                     Animation anim_appear = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.toolbar_down);
                     toolbar.startAnimation(anim_appear);
@@ -166,10 +158,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onSlide(View view, float v) {
-                // do something when slide
-                if (v < 0) {
-//                    btn_menu.animate().scaleX(1 - v).scaleY(1 - v).setDuration(0).start();
-                }
+
             }
         });
     }
@@ -194,23 +183,6 @@ public class MainActivity extends AppCompatActivity
 
     List<ParkingPlace> getParkingBook(List<Parking> parkingList) {
         List<ParkingPlace> parking_book = new ArrayList<ParkingPlace>();
-//        parking_book.add(new ParkingPlace(
-//                59.930413, 30.361137,
-//                "пр. Пятилеток, 1, лит. А", Arrays.asList(15, 0, 23, 59),
-//                7));
-//        parking_book.add(new ParkingPlace(59.933686, 30.313075,
-//                "наб. р. Мойки, 75-79", Arrays.asList(12, 0, 22, 00),
-//                20));
-//        parking_book.add(new ParkingPlace(59.930086, 30.344658,
-//                "ул. Рубинштейна, 11", Arrays.asList(17, 30, 23, 59),
-//                12));
-//        parking_book.add(new ParkingPlace(59.927321, 30.385752,
-//                "пл. Восстания", Arrays.asList(0, 0, 23, 59),
-//                1));
-//        parking_book.add(new ParkingPlace(59.927321, 30.385752,
-//                "пл. Восстания", Arrays.asList(0, 0, 23, 59),
-//                1));
-
         for (Integer i = 0; i < parkingList.size(); i++){
             parking_book.add(new ParkingPlace(parkingList.get(i)));
         }
@@ -225,11 +197,6 @@ public class MainActivity extends AppCompatActivity
 
     public void onClick(View v) {
         if (v.getId() == R.id.btn_menu) {
-//
-//            Calendar calendar = new GregorianCalendar();
-//            calendar.set(Calendar.HOUR_OF_DAY, 13);
-//            calendar.set(Calendar.MINUTE, 40);
-//            calendar.getTime();
             Intent intent_menu = new Intent(this, MenuActivity.class);
             intent_menu.putExtra("car_number", car_number);
             startActivity(intent_menu);
@@ -262,13 +229,6 @@ public class MainActivity extends AppCompatActivity
                 toolbar.setVisibility(View.VISIBLE);
                 if (orderService.getOrderList().size() > 0){btn_show_qr_code.setVisibility(View.VISIBLE);}
                 hidden = true;
-//                fTrans = fragmentManager.beginTransaction();
-//                fTrans.remove(park_info_frag);
-//                fTrans.commit();
-
-//                map_layout.setLayoutParams(new LinearLayout.LayoutParams(
-//                        LinearLayout.LayoutParams.MATCH_PARENT,
-//                        LinearLayout.LayoutParams.MATCH_PARENT))
                 break;
             case R.id.btn_go_on:
                 Intent intent_go_on = new Intent(this, CardActivity.class);
@@ -283,22 +243,12 @@ public class MainActivity extends AppCompatActivity
                 intent_go_on.putExtra("PayType", pay_type);
                 startActivity(intent_go_on);
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-//                finish();
                 break;
-
-//            case R.id.btn_time_info:
-//                Intent intent_time_info = new Intent(this, InfoTimeActivity.class);
-//                List<Integer> time = selected_place.getWorkingHours();
-//                String working_hours = "c " + TimeFormat(time.get(0)) +
-//                        ":" + TimeFormat(time.get(1)) + "   по " + TimeFormat(time.get(2)) +
-//                        ":" + TimeFormat(time.get(3));
-//                intent_time_info.putExtra("working_hours", working_hours);
-//                startActivity(intent_time_info);
-//                break;
             case R.id.btn_pay_type:
                 BottomSheetDialogFragment frag_car_type = new SelectPayTypeFragment();
                 frag_car_type.show(getSupportFragmentManager(),
                         "ModalBottomSheet");
+                Log.i("TAG_PAY_TYPE", "open pay type");
             default:
                 break;
 
@@ -316,7 +266,6 @@ public class MainActivity extends AppCompatActivity
         map = googleMap;
         map.getUiSettings().setZoomControlsEnabled(true);
         map.getUiSettings().setMyLocationButtonEnabled(true);
-        // Add lots of markers to the map.
         addMarkersToMap(parking_book);
         map.setOnMarkerClickListener(this);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(59.930099, 30.361609), 12));
@@ -326,15 +275,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void addMarkersToMap(List<ParkingPlace> parking_book) {
-        // Uses a colored icon.
-        //for(ParkingPlace place:parking_book)
-        //ListIterator<ParkingPlace> iterator = parking_book.listIterator();
-        //while (iterator.hasNext()) {
-        //    Log.i("TAG", iterator.next().getAddress());
-        //    map.addMarker(new MarkerOptions()
-        //            .position(iterator.next().getLoc())
-        //            .flat(true)
-        //            ).setTag(iterator.nextIndex());
         for (Integer i = 0; i < parking_book.size(); i++) {
             map.addMarker(new MarkerOptions()
                     .position(parking_book.get(i).getLoc())
@@ -343,7 +283,6 @@ public class MainActivity extends AppCompatActivity
         }
         ;
     }
-//    }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
@@ -355,37 +294,6 @@ public class MainActivity extends AppCompatActivity
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         return true;
     }
-
-
-//    public static List<Parking> connect() throws InterruptedException {
-//        WebSocketConnection connection = new WebSocketConnection("http://10.0.2.2:8080/client");
-//        connection.init();
-//        Random random = new Random();
-//        Integer count = 0;
-//        while (count < 100) {
-//            count++;
-//            if (connection.getParkingList() != null) {
-//                try {
-//                    Thread.sleep(5000);
-//                } catch (InterruptedException e) {
-//                }
-//                int parkingId = random.nextInt(connection.getParkingList().size());
-//                String carNum = "car" + random.nextInt(100);
-//                Date start = new Date(new Date().getTime() + random.nextInt(3600 * 1000 * 8) + 3600 * 1000);
-//                Date finish = new Date(start.getTime() + 3600 * 1000);
-//                String paymentInfo = "here comes some payment information " + random.nextInt(100);
-//                Order order = new Order(null, (long) parkingId, carNum, start.getTime(),
-//                        finish.getTime(), paymentInfo);
-//                connection.sendOrder(order);
-//                Log.i("TAG_CONNECT", start.toString());
-//            } else {
-//                System.out.println("pList is null");
-//
-//                Thread.sleep(2000);
-//            }
-//        }
-//        return connection.getParkingList();
-//    }
 
     @Override
     public void OnCardSelected(Integer id) {

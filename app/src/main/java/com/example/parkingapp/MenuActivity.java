@@ -21,11 +21,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             btn_close_menu,
             btn_change_car_number;
     private TextView
-            txt_car_number_menu,
-            txt_booking_history,
-            txt_payment_type,
-            txt_help_chat,
-            txt_about_app;
+            txt_car_number_menu;
 
 
     @Override
@@ -35,24 +31,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         btn_close_menu = findViewById(R.id.btn_close_menu);
         btn_change_car_number = findViewById(R.id.btn_change_car_number);
         txt_car_number_menu = findViewById(R.id.txt_car_number_menu);
-        txt_booking_history = findViewById(R.id.txt_booking_history);
-        txt_payment_type = findViewById(R.id.txt_payment_type);
-        txt_help_chat = findViewById(R.id.txt_help_chat);
-        txt_about_app = findViewById(R.id.txt_about_app);
-
 
         txt_car_number_menu.setText(getIntent().getStringExtra("car_number"));
 
-        txt_booking_history.setClickable(true);
-        txt_payment_type.setClickable(true);
-        txt_help_chat.setClickable(true);
-        txt_about_app.setClickable(true);
-
         btn_close_menu.setOnClickListener(this);
-        txt_booking_history.setOnClickListener(this);
-        txt_payment_type.setOnClickListener(this);
-        txt_help_chat.setOnClickListener(this);
-        txt_about_app.setOnClickListener(this);
         Context context = getApplicationContext();
     }
 
@@ -62,26 +44,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_change_car_number:
                 Intent intent_change_car_number = new Intent(this, CarNumberActivity.class);
                 startActivity(intent_change_car_number);
-                break;
-
-            case R.id.txt_booking_history:
-                Intent intent_booking_history = new Intent(this, HistoryActivity.class);
-                startActivity(intent_booking_history);
-                break;
-
-            case R.id.txt_payment_type:
-                Intent intent_payment_type = new Intent(this, PayTypeActivity.class);
-                startActivity(intent_payment_type);
-                break;
-
-            case R.id.txt_help_chat:
-                Intent intent_help_chat = new Intent(this, HelpChatActivity.class);
-                startActivity(intent_help_chat);
-                break;
-
-            case R.id.txt_about_app:
-                Intent intent_about_app = new Intent(this, AboutAppActivity.class);
-                startActivity(intent_about_app);
                 break;
 
             case R.id.btn_close_menu:

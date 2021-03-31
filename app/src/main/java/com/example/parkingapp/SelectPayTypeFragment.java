@@ -39,26 +39,17 @@ public class SelectPayTypeFragment extends BottomSheetDialogFragment implements 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_select_pay_type, container, false);
         txt_google_pay = rootView.findViewById(R.id.txt_google_pay);
-//        txt_master_card_pay = rootView.findViewById(R.id.txt_master_card);
         txt_new_card_pay = rootView.findViewById(R.id.txt_new_card);
         txt_google_pay.setOnClickListener(this);
-//        txt_master_card_pay.setOnClickListener(this);
         txt_new_card_pay.setOnClickListener(this);
-
-//        TextView last_selected = rootView.findViewById(restorePrefData());
-//        Drawable[] draw = last_selected.getCompoundDrawables();
-//        last_selected.setCompoundDrawables(last_selected.getCompoundDrawables()[0], null,
-//                getResources().getDrawable(R.drawable.ic_checkmark, getActivity().getTheme()), null);
         return rootView;
     }
 
     @Override
     public void onClick(View v) {
         bListener.OnCardSelected(v.getId());
-//        setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_checkmark, 0);
         savePrefsData(v.getId());
         dismiss();
     }

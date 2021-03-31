@@ -2,8 +2,6 @@ package com.example.parkingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +9,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +34,7 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_two);
+        setContentView(R.layout.activity_payment);
         btn_pay = findViewById(R.id.btn_pay);
         btn_back = findViewById(R.id.btn_back);
         txt_street = findViewById(R.id.txt_street2);
@@ -67,11 +64,6 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
 
     public void onClick(View v) {
         if (v.getId() == R.id.btn_pay) {
-//            try {
-//                connect();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
             Intent intent = new Intent(this, CardActivity.class);
             intent.putExtra("amount", txt_price.getText());
             Log.i("TAG_PRICE", (String) txt_price.getText());
