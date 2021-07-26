@@ -10,3 +10,5 @@
     <source src="C:\Users\Owner\Videos\Captures\video.mp4" type="video/mp4">
   </video>
 </figure>
+
+[![Watch the video](video/poster_image.jpg)](video/video.mp4)
